@@ -55,6 +55,8 @@ services:
     build: 
       context: ./
       dockerfile: ./apps/pybossa/Dockerfile
+    environment:
+      DB_INIT: True
     networks:
       - backend
       - redis
@@ -69,14 +71,51 @@ services:
     env_file:
       - .env
   
+  pybossa-worker:
+    container_name: pybossa-worker
+    image: pybossa:latest
+    networks:
+      - backend
+      - redis
+    external_links:
+      - postgres
+    depends_on:
+      - redis-master
+      - redis-replica
+      - redis-sentinel
+    env_file:
+      - .env
+    command: ["rqscheduler", "--host", "redis-master", "--port", "6379", "--interval", "60" , "--db",  "0"]
+  
+  pybossa-scheduler:
+    container_name: pybossa-scheduler
+    image: pybossa:latest
+    networks:
+      - backend
+      - redis
+    external_links:
+      - postgres
+    depends_on:
+      - redis-master
+      - redis-replica
+      - redis-sentinel
+    env_file:
+      - .env
+    command: ["python", "app_context_rqworker.py", "scheduled_jobs", "super", "high", "medium", "low" , "email",  "maintenance"]
+  
+  # c3s:
+  #   container_name: c3s
+  #   image: c3s-lab-client:latest
+  #   build: 
+  #     context: ./
+  #     dockerfile: ./apps/c3s-lab-client/Dockerfile
+
 networks:
   backend:
     name: pybossa-postgres-net
     external: true
   redis:
 
-#  pybossa-worker:
-#    container_name: pybossa-worker
       
 #external_links: 
 # - database:postgresql

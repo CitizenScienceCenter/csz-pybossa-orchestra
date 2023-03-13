@@ -41,6 +41,9 @@ WORKDIR /app/pybossa
 RUN git clone --recursive https://github.com/Scifabric/pybossa /app/pybossa && \
     pip install --upgrade pip && \
     pip install -r /app/pybossa/requirements.txt
+
+RUN pip install uwsgi
+#dropbox?
     
 # alternative: local copy of pybossa to the container
 # COPY --chown=pybossa:pybossa <pybossa-dir> /app/pybossa
@@ -51,15 +54,10 @@ RUN pip install 'requests-oauthlib==1.0.0' --force-reinstall && \
     pip install 'oauthlib==2.1.0' --force-reinstall && \
     pip install 'sqlalchemy<2.0' --force-reinstall
 
-#rq==0.13.0
-#rq-dashboard==0.3.12
-#rq-scheduler==0.9
-
 FROM dependencies AS configs
 
 # copy static config files to pybossa project
 COPY --chown=pybossa:pybossa config/pybossa/settings_local.py /app/pybossa/settings_local.py
-COPY --chown=pybossa:pybossa config/supervisor/ /etc/supervisor/conf.d/
 COPY --chown=pybossa:pybossa config/uwsgi/pybossa.ini /app/pybossa/pybossa.ini
 COPY --chown=pybossa:pybossa config/alembic/templates/alembic.ini.template /app/pybossa/alembic.ini.template
 COPY --chown=pybossa:pybossa templates/index.html /app/pybossa/pybossa/themes/default/templates/admin/index.html
@@ -71,6 +69,7 @@ ENTRYPOINT ["/app/entrypoint.sh"]
 # Run the application
 EXPOSE 8080
 
+#python /app/pybossa/cli.py db_create
 #CMD ["python", "/app/pybossa/cli.py",  "db_create"]
 CMD ["python", "run.py"]
-#CMD ["/usr/bin/supervisord"]
+#CMD ["/app/venv/bin/uwsgi", "--ini", "pybossa.ini"]
