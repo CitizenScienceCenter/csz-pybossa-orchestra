@@ -17,6 +17,11 @@ EOSQL
 )
 
 # populate postgres database with pybossa tables if not existent
+echo ${DB_INIT}
+echo ${DB_EXISTS}
+echo [[ ${DB_INIT} ]]
+echo [[ ${DB_EXISTS} ]]
+
 if [ "${DB_INIT}" -a "${DB_EXISTS} == 'f'" ] ; then
     echo "Postgres database population needed!"
     python /app/pybossa/cli.py db_create

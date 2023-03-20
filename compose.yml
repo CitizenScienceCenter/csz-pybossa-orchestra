@@ -103,12 +103,14 @@ services:
       - .env
     command: ["python", "app_context_rqworker.py", "scheduled_jobs", "super", "high", "medium", "low" , "email",  "maintenance"]
   
-  # c3s:
-  #   container_name: c3s
-  #   image: c3s-lab-client:latest
-  #   build: 
-  #     context: ./
-  #     dockerfile: ./apps/c3s-lab-client/Dockerfile
+  c3s:
+    container_name: c3s
+    image: c3s-lab-client:latest
+    build: 
+      context: ./
+      dockerfile: ./apps/c3s-lab-client/Dockerfile
+    ports:
+    - "8081:80"
 
 networks:
   backend:

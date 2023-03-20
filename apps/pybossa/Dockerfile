@@ -6,7 +6,6 @@ LABEL c3s.pb.image.authors="daniel.boehler@uzh.ch" \
 RUN apt-get update && apt-get install -y \
     git \
     gettext-base \
-    supervisor \
     postgresql \
     postgresql-server-dev-all \
     libpq-dev \
@@ -69,7 +68,5 @@ ENTRYPOINT ["/app/entrypoint.sh"]
 # Run the application
 EXPOSE 8080
 
-#python /app/pybossa/cli.py db_create
-#CMD ["python", "/app/pybossa/cli.py",  "db_create"]
 CMD ["python", "run.py"]
 #CMD ["/app/venv/bin/uwsgi", "--ini", "pybossa.ini"]

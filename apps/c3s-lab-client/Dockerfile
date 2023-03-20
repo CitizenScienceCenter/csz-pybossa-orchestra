@@ -1,4 +1,4 @@
-FROM node:latest AS base
+FROM --platform=linux/amd64 node:latest AS base
 LABEL c3s.web.image.authors="daniel.boehler@uzh.ch" \
       c3s.web.image.version="1.0"
 
@@ -8,23 +8,33 @@ RUN apt-get update && apt-get install -y \
     yarnpkg \
     && rm -rf /var/lib/apt/lists/*
 
-# permissions and pybossa user for tightened security
 RUN adduser c3s
 RUN mkdir /app && chown -R c3s:c3s /app
 USER c3s
 
-FROM base AS dependencies
+#RUN mkdir /app
+
+FROM base AS build
 
 # clone pybossa into the container (from github)
 WORKDIR /app/c3s-lab-client
 RUN git clone --recursive https://github.com/CitizenScienceCenter/c3s-lab-client /app/c3s-lab-client
 
-RUN yarnpkg install
+RUN yarnpkg install && yarnpkg build
 
-    
-# alternative: local copy of c3s-lab-client to the container
-# COPY --chown=c3s:c3s <c3s-dir> /c3s-lab-client
-# RUN yarn install
+# RUN yarn install --silent && \
+#     yarn run build  
 
-CMD ["yarnpkg", "run", "dev"]
+
+# replace env vars based on different deployments (dev, test, stag, prod) 
+# build application
+#COPY --chown=c3s:c3s --chmod=0755 apps/c3s-lab.client/entrypoint.sh /app/entrypoint.sh
+#ENTRYPOINT ["/app/entrypoint.sh"]
+
+
+FROM nginx:latest as production
+COPY --from=build /app/c3s-lab-client/dist /usr/share/nginx/html
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
 
