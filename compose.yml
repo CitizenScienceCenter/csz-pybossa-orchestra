@@ -55,8 +55,6 @@ services:
     build: 
       context: ./
       dockerfile: ./apps/pybossa/Dockerfile
-    environment:
-      DB_INIT: True
     networks:
       - backend
       - redis
@@ -90,6 +88,8 @@ services:
   pybossa-scheduler:
     container_name: pybossa-scheduler
     image: pybossa:latest
+    environment:
+      DB_INIT: True
     networks:
       - backend
       - redis
