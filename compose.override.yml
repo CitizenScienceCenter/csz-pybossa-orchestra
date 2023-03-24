@@ -1,0 +1,36 @@
+services:
+  pybossa-master:
+    networks:
+      - postgres-net
+    volumes:
+      - type: bind
+        source: ./config/pybossa/settings_local.dev.py
+        target: /app/pybossa/settings_local.py
+    env_file:
+      - ./config/env/.env.dev
+    command: ["python", "run.py"]
+
+  pybossa-worker:
+    networks:
+      - postgres-net
+    volumes:
+      - type: bind
+        source: ./config/pybossa/settings_local.py
+        target: /app/pybossa/settings_local.py
+    env_file:
+      - ./config/env/.env.dev
+
+  pybossa-scheduler:
+    networks:
+      - postgres-net
+    volumes:
+      - type: bind
+        source: ./config/pybossa/settings_local.py
+        target: /app/pybossa/settings_local.py
+    env_file:
+      - ./config/env/.env.dev
+
+networks:
+  postgres-net:
+    name: pybossa-postgres-net
+    external: true

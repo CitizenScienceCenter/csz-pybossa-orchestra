@@ -42,12 +42,14 @@ RUN git clone --recursive https://github.com/Scifabric/pybossa /app/pybossa && \
     pip install -r /app/pybossa/requirements.txt
 
 RUN pip install uwsgi
-#dropbox?
-    
-# alternative: local copy of pybossa to the container
-# COPY --chown=pybossa:pybossa <pybossa-dir> /app/pybossa
-# RUN pip install -r /app/pybossa/requirements.txt
+# install dropbox?
 
+# alternative: copy local copy of pybossa to the container
+# WORKDIR /app/pybossa
+# COPY --chown=pybossa:pybossa apps/pybossa /app/pybossa
+# RUN pip install --upgrade pip && \
+#     pip install -r /app/pybossa/requirements.txt
+    
 # reinstall older versions of broken dependencies
 RUN pip install 'requests-oauthlib==1.0.0' --force-reinstall && \
     pip install 'oauthlib==2.1.0' --force-reinstall && \
@@ -59,14 +61,13 @@ FROM dependencies AS configs
 COPY --chown=pybossa:pybossa config/pybossa/settings_local.py /app/pybossa/settings_local.py
 COPY --chown=pybossa:pybossa config/uwsgi/pybossa.ini /app/pybossa/pybossa.ini
 COPY --chown=pybossa:pybossa config/alembic/templates/alembic.ini.template /app/pybossa/alembic.ini.template
-COPY --chown=pybossa:pybossa templates/index.html /app/pybossa/pybossa/themes/default/templates/admin/index.html
+#COPY --chown=pybossa:pybossa templates/index.html /app/pybossa/pybossa/themes/default/templates/admin/index.html
 
 # replace env vars based on different deployments (dev, test, stag, prod) 
-COPY --chown=pybossa:pybossa --chmod=0755 apps/pybossa/entrypoint.sh /app/entrypoint.sh
+COPY --chown=pybossa:pybossa --chmod=0755 docker/pybossa/entrypoint.sh /app/entrypoint.sh
 ENTRYPOINT ["/app/entrypoint.sh"]
 
 # Run the application
 EXPOSE 8080
 
-CMD ["python", "run.py"]
-#CMD ["/app/venv/bin/uwsgi", "--ini", "pybossa.ini"]
+CMD ["/app/venv/bin/uwsgi", "--ini", "pybossa.ini"]
