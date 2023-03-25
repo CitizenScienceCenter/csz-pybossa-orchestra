@@ -45,8 +45,6 @@ services:
       dockerfile: ./docker/pybossa/Dockerfile
     networks:
       - redis
-    external_links:
-      - postgres
     depends_on:
       - redis-master
       - redis-replica
@@ -59,8 +57,6 @@ services:
     image: pybossa:latest
     networks:
       - redis
-    external_links:
-      - postgres
     depends_on:
       - redis-master
       - redis-replica
@@ -74,8 +70,6 @@ services:
       DB_INIT: True
     networks:
       - redis
-    external_links:
-      - postgres
     depends_on:
       - redis-master
       - redis-replica

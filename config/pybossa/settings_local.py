@@ -29,7 +29,7 @@ from os import environ as env
 # PORT = 8080
 
 ## use SERVER_NAME instead of HOST for production environment with real URLs
-SERVER_NAME = env['SERVER_NAME']
+# SERVER_NAME = env['SERVER_NAME']
 
 SECRET = 'foobar'
 SECRET_KEY = 'my-session-secret'
