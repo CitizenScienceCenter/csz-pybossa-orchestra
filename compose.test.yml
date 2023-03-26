@@ -14,11 +14,14 @@ services:
   pybossa-master:
     env_file:
       - ./config/env/.env.test
+      - ./config/env/.env.secrets
   
   pybossa-worker:
     env_file:
       - ./config/env/.env.test
+      - ./config/env/.env.secrets
 
   pybossa-scheduler:
     env_file:
       - ./config/env/.env.test
+      - ./config/env/.env.secrets

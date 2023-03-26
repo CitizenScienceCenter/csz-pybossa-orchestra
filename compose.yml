@@ -40,6 +40,8 @@ services:
   pybossa-master:
     container_name: pybossa-master
     image: pybossa:latest
+    volumes:
+      - ./uploads:/app/uploads
     build: 
       context: ./
       dockerfile: ./docker/pybossa/Dockerfile

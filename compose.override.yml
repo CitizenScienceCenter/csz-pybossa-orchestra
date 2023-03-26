@@ -15,7 +15,7 @@ services:
       - postgres-net
     volumes:
       - type: bind
-        source: ./config/pybossa/settings_local.py
+        source: ./config/pybossa/settings_local.dev.py
         target: /app/pybossa/settings_local.py
     env_file:
       - ./config/env/.env.dev
@@ -25,7 +25,7 @@ services:
       - postgres-net
     volumes:
       - type: bind
-        source: ./config/pybossa/settings_local.py
+        source: ./config/pybossa/settings_local.dev.py
         target: /app/pybossa/settings_local.py
     env_file:
       - ./config/env/.env.dev

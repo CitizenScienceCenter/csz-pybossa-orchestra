@@ -19,8 +19,8 @@
 # Add env support for deployments
 from os import environ as env
 
-DEBUG = True
-ENABLE_DEBUG_TOOLBAR = True
+DEBUG = False
+ENABLE_DEBUG_TOOLBAR = False
 
 ## host for local development
 HOST = '0.0.0.0'
@@ -93,23 +93,12 @@ CONTACT_TWITTER = 'PyBossa'
 # LOG_LEVEL = logging.DEBUG
 
 ## Mail setup
-# MAIL_SERVER = 'localhost'
-# MAIL_USERNAME = None
-# MAIL_PASSWORD = None
-# MAIL_PORT = 25
-# MAIL_FAIL_SILENTLY = False
-# MAIL_DEFAULT_SENDER = 'PyBossa Support <info@pybossa.com>'
-
-
-MAIL_SERVER = 'asmtp.mailstation.ch'
-MAIL_USERNAME = 'no-reply@citizenscience.ch'
-MAIL_PASSWORD = env['MAIL_PW']
-MAIL_PORT = 465
-MAIL_USE_SSL = True
+MAIL_SERVER = 'localhost'
+MAIL_USERNAME = None
+MAIL_PASSWORD = None
+MAIL_PORT = 25
 MAIL_FAIL_SILENTLY = False
-MAIL_DEFAULT_SENDER = 'C3S Project Builder<no-reply@citizenscience.ch>'
-#MAIL_DEFAULT_SENDER = "PyBossa Support <info@pybossa.com>"
-
+MAIL_DEFAULT_SENDER = 'PyBossa Support <info@pybossa.com>'
 
 ## Announcement messages
 ## Use any combination of the next type of messages: root, user, and app owners
@@ -136,7 +125,7 @@ ALLOWED_EXTENSIONS = ['js', 'css', 'png', 'jpg', 'jpeg', 'gif', 'zip']
 
 ## If you want to use the local uploader configure which folder
 UPLOAD_METHOD = 'local'
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = '/app/uploads'
 
 ## If you want to use Rackspace for uploads, configure it here
 # RACKSPACE_USERNAME = 'username'
@@ -271,21 +260,21 @@ LIBSASS_STYLE = 'compressed'
 # LDAP_PYBOSSA_FIELDS = {'fullname': 'givenName',
 #                        'name': 'uid',
 #                        'email_addr': 'cn'}
-# Flask profiler
-# FLASK_PROFILER = {
-#     "enabled": True,
-#     "storage": {
-#         "engine": "sqlite"
-#     },
-#     "basicAuth":{
-#         "enabled": True,
-#         "username": "admin",
-#         "password": "admin"
-#     },
-#     "ignore": [
-# 	    "^/static/.*"
-# 	]
-# }
+## Flask profiler
+FLASK_PROFILER = {
+    "enabled": True,
+    "storage": {
+        "engine": "sqlite"
+    },
+    "basicAuth":{
+        "enabled": True,
+        "username": "admin",
+        "password": "admin"
+    },
+    "ignore": [
+	    "^/static/.*"
+	]
+}
 # Specify which key from the info field of task, task_run or result is going to be used as the root key
 # for exporting in CSV format
 # TASK_CSV_EXPORT_INFO_KEY = 'key'
