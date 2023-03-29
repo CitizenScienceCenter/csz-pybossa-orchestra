@@ -1,6 +1,0 @@
-[submodule "apps/c3s-lab-client"]
-	path = apps/c3s-lab-client
-	url = https://github.com/CitizenScienceCenter/c3s-lab-client.git
-[submodule "apps/pybossa"]
-	path = apps/pybossa
-	url = https://github.com/Scifabric/pybossa.git
