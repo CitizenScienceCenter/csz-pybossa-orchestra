@@ -1,17 +1,8 @@
 services: 
-#  web:
-#    container_name: nginx
-#    image: nginx:latest
-#    restart: unless-stopped
-#    volumes:
-#    - config/nginx/templates:/etc/nginx/templates
-#    ports:
-#    - "8080:80"
-#    environment:
-#    - NGINX_HOST=foobar.com
-#    - NGINX_PORT=80
-
   pybossa-master:
+    volumes:
+      - nginx-socket:/tmp/
+      - static-dir:/app/pybossa/pybossa/themes/default/static
     env_file:
       - ./config/env/.env.test
       - ./config/env/.env.secrets
@@ -25,3 +16,25 @@ services:
     env_file:
       - ./config/env/.env.test
       - ./config/env/.env.secrets
+
+  web:
+    container_name: nginx
+    image: nginx:latest
+    restart: always
+    volumes:
+      - ./config/nginx/templates:/etc/nginx/templates
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - nginx-socket:/app/uwsgi/:ro
+      - static-dir:/app/static:ro
+    ports:
+      - "8080:80"
+    networks:
+      - backend
+    env_file:
+      - ./config/env/.env.test
+    depends_on:
+      - pybossa-master
+
+volumes:
+  nginx-socket:
+  static-dir:

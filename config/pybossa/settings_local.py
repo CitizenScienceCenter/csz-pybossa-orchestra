@@ -167,7 +167,7 @@ ACCOUNT_LINK_EXPIRATION = 5 * 60 * 60
 # PER = 15 * 60
 
 # Disable new account confirmation (via email)
-ACCOUNT_CONFIRMATION_DISABLED = False
+ACCOUNT_CONFIRMATION_DISABLED = True
 
 # Mailchimp API key
 # MAILCHIMP_API_KEY = "your-key"

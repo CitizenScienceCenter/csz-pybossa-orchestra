@@ -26,7 +26,7 @@ ENABLE_DEBUG_TOOLBAR = False
 HOST = '0.0.0.0'
 
 ## PORT used for local development, in production environment let nginx handle this
-PORT = 8080
+# PORT = 8080
 
 ## use SERVER_NAME instead of HOST for production environment with real URLs
 # SERVER_NAME = 'somecoolurl.com'

@@ -68,6 +68,6 @@ COPY --chown=pybossa:pybossa --chmod=0755 docker/pybossa/entrypoint.sh /app/entr
 ENTRYPOINT ["/app/entrypoint.sh"]
 
 # Run the application
-EXPOSE 8080
+EXPOSE 5000
 
 CMD ["/app/venv/bin/uwsgi", "--ini", "pybossa.ini"]

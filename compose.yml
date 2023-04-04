@@ -47,22 +47,24 @@ services:
       dockerfile: ./docker/pybossa/Dockerfile
     networks:
       - redis
+      - backend
     depends_on:
       - redis-master
       - redis-replica
       - redis-sentinel
-    ports:
-      - "8080:8080"
+      - pybossa-scheduler
   
   pybossa-worker:
     container_name: pybossa-worker
     image: pybossa:latest
     networks:
       - redis
+      - backend
     depends_on:
       - redis-master
       - redis-replica
       - redis-sentinel
+      - pybossa-scheduler
     command: ["rqscheduler", "--host", "redis-master", "--port", "6379", "--interval", "60" , "--db",  "0"]
   
   pybossa-scheduler:
@@ -72,12 +74,14 @@ services:
       DB_INIT: True
     networks:
       - redis
+      - backend
     depends_on:
       - redis-master
       - redis-replica
       - redis-sentinel
     command: ["python", "app_context_rqworker.py", "scheduled_jobs", "super", "high", "medium", "low" , "email",  "maintenance"]
-  
+
 networks:  
   redis:
+  backend:
 
