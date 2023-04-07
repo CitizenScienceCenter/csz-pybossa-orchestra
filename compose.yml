@@ -39,12 +39,14 @@ services:
   
   pybossa-master:
     container_name: pybossa-master
-    image: pybossa:latest
+    image: pybossa:master
     volumes:
       - ./uploads:/app/uploads
+      - pybossa-root:/app/pybossa
     build: 
       context: ./
       dockerfile: ./docker/pybossa/Dockerfile
+      target: pybossa-master
     networks:
       - redis
       - backend
@@ -56,7 +58,9 @@ services:
   
   pybossa-worker:
     container_name: pybossa-worker
-    image: pybossa:latest
+    image: pybossa:master
+    volumes:
+      - pybossa-root:/app/pybossa
     networks:
       - redis
       - backend
@@ -69,7 +73,9 @@ services:
   
   pybossa-scheduler:
     container_name: pybossa-scheduler
-    image: pybossa:latest
+    image: pybossa:master
+    volumes:
+      - pybossa-root:/app/pybossa
     environment:
       DB_INIT: True
     networks:
@@ -84,4 +90,7 @@ services:
 networks:  
   redis:
   backend:
+
+volumes:
+  pybossa-root:
 

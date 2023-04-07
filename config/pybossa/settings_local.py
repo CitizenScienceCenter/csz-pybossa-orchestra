@@ -29,7 +29,7 @@ ENABLE_DEBUG_TOOLBAR = False
 # PORT = 8080
 
 ## use SERVER_NAME instead of HOST for production environment with real URLs
-# SERVER_NAME = env['SERVER_NAME']
+SERVER_NAME = env['HOST_NAME']
 
 
 SECRET = env['FLASK_SESSIONS_SECRET']
