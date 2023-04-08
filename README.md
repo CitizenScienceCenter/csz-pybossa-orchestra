@@ -1,6 +1,6 @@
 ## Full Docker Orchestration for pybossa
 
-###Initial Setup Steps:
+### Initial Setup Steps:
 1. Create Diffie-Hellmann key – refer to [_config/nginx/dhparam/README.md_](config/nginx/dhparam/README.md)
 2. Running in OpenStack Cloud? Modify (or create – if it does not exist) the Docker daemon configuration file at /etc/docker/daemon.json and explicitly set the correct MTU size (accounting for the packet overhead). [_Details / Source_](https://platform9.com/kb/openstack/no-connectivity-to-docker-containers-within-instance)
 ```
