@@ -1,5 +1,10 @@
 services:
-  pybossa-master:
+  pybossa-server:
+    image: pybossa:server-dev
+    build: 
+      context: ./
+      dockerfile: ./docker/pybossa/Dockerfile
+      target: pybossa-server-dev
     networks:
       - postgres-net
     volumes:
@@ -8,9 +13,9 @@ services:
         target: /app/pybossa/settings_local.py
     env_file:
       - ./config/env/.env.dev
+      - ./config/env/.env.mail
     ports:
       - "5000:5000"
-    command: ["python", "run.py"]
 
   pybossa-worker:
     networks:
@@ -21,6 +26,7 @@ services:
         target: /app/pybossa/settings_local.py
     env_file:
       - ./config/env/.env.dev
+      - ./config/env/.env.mail
 
   pybossa-scheduler:
     networks:
@@ -31,10 +37,9 @@ services:
         target: /app/pybossa/settings_local.py
     env_file:
       - ./config/env/.env.dev
+      - ./config/env/.env.mail
 
 networks:
   postgres-net:
     name: pybossa-postgres-net
     external: true
-  backend-net:
-    name: backend-net

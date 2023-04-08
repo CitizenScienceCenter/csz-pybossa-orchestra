@@ -7,6 +7,8 @@
 { "mtu": 1450}
 ```
 
+alembic upgrade head
+
 UNIX vs. TCP sockets: https://blog.myhro.info/2017/01/benchmarking-ip-and-unix-domain-sockets-for-real
 
 Kudos to the following tutorials:

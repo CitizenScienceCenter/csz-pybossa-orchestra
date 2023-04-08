@@ -43,6 +43,7 @@ SQLALCHEMY_DATABASE_URI = env['POSTGRES_URL']
 
 ITSDANGEROUSKEY = 'its-dangerous-key'
 
+
 ## project configuration
 BRAND = 'PyBossa'
 TITLE = 'PyBossa'
@@ -53,6 +54,9 @@ TERMSOFUSE = 'http://okfn.org/terms-of-use/'
 DATAUSE = 'http://opendatacommons.org/licenses/by/'
 CONTACT_EMAIL = 'info@pybossa.com'
 CONTACT_TWITTER = 'PyBossa'
+
+## Custom theme
+# THEME = 'MicroPasts-pybossa-theme'
 
 ## Default number of projects per page
 ## APPS_PER_PAGE = 20
@@ -93,12 +97,21 @@ CONTACT_TWITTER = 'PyBossa'
 # LOG_LEVEL = logging.DEBUG
 
 ## Mail setup
-MAIL_SERVER = 'localhost'
-MAIL_USERNAME = None
-MAIL_PASSWORD = None
-MAIL_PORT = 25
+# MAIL_SERVER = 'pybossa-server'
+# MAIL_USERNAME = None
+# MAIL_PASSWORD = None
+# MAIL_PORT = 25
+# MAIL_FAIL_SILENTLY = False
+# MAIL_DEFAULT_SENDER = 'PyBossa Support <info@pybossa.com>'
+
+## Mail setup
+MAIL_SERVER = env['MAIL_SERVER']
+MAIL_USERNAME = env['MAIL_USERNAME']
+MAIL_PASSWORD = env['MAIL_PW']
+MAIL_PORT = env['MAIL_PORT']
+MAIL_USE_SSL = True
 MAIL_FAIL_SILENTLY = False
-MAIL_DEFAULT_SENDER = 'PyBossa Support <info@pybossa.com>'
+MAIL_DEFAULT_SENDER = env['MAIL_DEFAULT_SENDER']
 
 ## Announcement messages
 ## Use any combination of the next type of messages: root, user, and app owners

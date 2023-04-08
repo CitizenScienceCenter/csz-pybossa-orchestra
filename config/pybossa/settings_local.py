@@ -102,13 +102,13 @@ ADMINS = ['dev@citizenscience.ch']
 # MAIL_DEFAULT_SENDER = 'PyBossa Support <info@pybossa.com>'
 
 ## Mail setup
-MAIL_SERVER = 'asmtp.mailstation.ch'
-MAIL_USERNAME = 'no-reply@citizenscience.ch'
+MAIL_SERVER = env['MAIL_SERVER']
+MAIL_USERNAME = env['MAIL_USERNAME']
 MAIL_PASSWORD = env['MAIL_PW']
-MAIL_PORT = 465
+MAIL_PORT = env['MAIL_PORT']
 MAIL_USE_SSL = True
 MAIL_FAIL_SILENTLY = False
-MAIL_DEFAULT_SENDER = 'C3S Project Builder<no-reply@citizenscience.ch>'
+MAIL_DEFAULT_SENDER = env['MAIL_DEFAULT_SENDER']
 #MAIL_DEFAULT_SENDER = "PyBossa Support <info@pybossa.com>"
 
 

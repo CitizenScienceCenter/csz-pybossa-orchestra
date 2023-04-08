@@ -1,44 +1,27 @@
 services: 
-  pybossa-master:
-    volumes:
-      - nginx-socket:/tmp/
-      #- static-dir:/app/pybossa/pybossa/themes/default/static
-      - pybossa-dir:/app/pybossa
+  pybossa-server:
     env_file:
       - ./config/env/.env.prod
       - ./config/env/.env.secrets
+      - ./config/env/.env.mail
 
   pybossa-worker:
     env_file:
       - ./config/env/.env.prod
       - ./config/env/.env.secrets
+      - ./config/env/.env.mail
 
   pybossa-scheduler:
     env_file: 
       - ./config/env/.env.prod
       - ./config/env/.env.secrets
+      - ./config/env/.env.mail
 
-  web:
-    container_name: nginx
-    image: nginx:latest
-    restart: always
-    volumes:
-      - ./config/nginx/templates:/etc/nginx/templates
-      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - nginx-socket:/app/uwsgi/:ro
-      # - static-dir:/app/static:ro
-      - pybossa-dir:/app/pybossa:ro
-      
-    ports:
-      - "8080:80"
-    networks:
-      - backend
+  webserver:
     env_file:
       - ./config/env/.env.prod
-    depends_on:
-      - pybossa-master
 
-volumes:
-  nginx-socket:
-  static-dir:
-  pybossa-dir:
+  certbot:
+    env_file:
+      - ./config/env/.env.test
+    command: certonly --rsa-key-size 2048 --webroot --webroot-path=/var/www/certbot --staging --email dev@citizenscience.ch  --agree-tos --no-eff-email -d ${HOST_NAME}  -d www.${HOST_NAME}

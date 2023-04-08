@@ -37,16 +37,17 @@ services:
     networks:
       - redis
   
-  pybossa-master:
-    container_name: pybossa-master
-    image: pybossa:master
+  pybossa-server:
+    container_name: pybossa-server
+    image: pybossa:server
     volumes:
       - ./uploads:/app/uploads
-      - pybossa-root:/app/pybossa
+      - static-files:/app/pybossa/pybossa/themes/default/static
+      - uwsgi-socket:/tmp/
     build: 
       context: ./
       dockerfile: ./docker/pybossa/Dockerfile
-      target: pybossa-master
+      target: pybossa-server
     networks:
       - redis
       - backend
@@ -58,9 +59,11 @@ services:
   
   pybossa-worker:
     container_name: pybossa-worker
-    image: pybossa:master
-    volumes:
-      - pybossa-root:/app/pybossa
+    image: pybossa:worker
+    build: 
+      context: ./
+      dockerfile: ./docker/pybossa/Dockerfile
+      target: pybossa-worker
     networks:
       - redis
       - backend
@@ -69,15 +72,14 @@ services:
       - redis-replica
       - redis-sentinel
       - pybossa-scheduler
-    command: ["rqscheduler", "--host", "redis-master", "--port", "6379", "--interval", "60" , "--db",  "0"]
   
   pybossa-scheduler:
     container_name: pybossa-scheduler
-    image: pybossa:master
-    volumes:
-      - pybossa-root:/app/pybossa
-    environment:
-      DB_INIT: True
+    image: pybossa:scheduler
+    build: 
+      context: ./
+      dockerfile: ./docker/pybossa/Dockerfile
+      target: pybossa-scheduler
     networks:
       - redis
       - backend
@@ -85,12 +87,12 @@ services:
       - redis-master
       - redis-replica
       - redis-sentinel
-    command: ["python", "app_context_rqworker.py", "scheduled_jobs", "super", "high", "medium", "low" , "email",  "maintenance"]
 
 networks:  
   redis:
   backend:
 
 volumes:
-  pybossa-root:
+  static-files:
+  uwsgi-socket:
 

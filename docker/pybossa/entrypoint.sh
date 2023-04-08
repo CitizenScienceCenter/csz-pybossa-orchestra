@@ -20,18 +20,16 @@ fi
 # populate postgres database with pybossa tables if not existent
 if [ "${DB_EXISTS}" = false ] ; then
     echo "Postgres database population needed!"
-    if [ "${DB_INIT}" = true ] ; then
-        echo "Initialization of postgres database..."
-        python /app/pybossa/cli.py db_create
-        echo "Initialization completed"
-    else
-        echo "Postgres database not set to be populated with pybossa tables by this container!"
-        echo "-> Set env var DB_INIT=true for this container to trigger population of postgres database"
-    fi
+    echo "Initialization of postgres database..."
+    python /app/pybossa/cli.py db_create
+    echo "Initialization completed"
 else 
     echo "Postgres database already populated with pybossa tables!"
     echo "-> no database initalization needed."
 fi
+
+# migrate to new database layout (if applicable)
+alembic upgrade head
 
 # This will exec the CMD from Dockerfile
 exec "$@"
