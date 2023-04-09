@@ -22,7 +22,7 @@ if [ "${DB_EXISTS}" = false ] ; then
     echo "Postgres database population needed!"
     echo "Initialization of postgres database..."
     python /app/pybossa/cli.py db_create
-    echo "Initialization completed"
+    echo "...done"
 else 
     echo "Postgres database already populated with pybossa tables!"
     echo "-> no database initalization needed."

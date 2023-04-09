@@ -55,6 +55,9 @@ RUN pip install 'requests-oauthlib==1.0.0' --force-reinstall && \
 FROM dependencies AS pybossa-scheduler
 LABEL ch.citizenscience.env="PROD"
 
+# copy static config files to pybossa project
+COPY --chown=pybossa:pybossa config/pybossa/settings_local.py /app/pybossa/settings_local.py
+
 ## run worker
 CMD ["rqscheduler", "--host", "redis-master", "--port", "6379", "--interval", "60" , "--db",  "0"]
 
@@ -64,6 +67,7 @@ FROM dependencies AS pybossa-worker
 LABEL ch.citizenscience.env="PROD"
 
 ## copy static config files to pybossa project
+COPY --chown=pybossa:pybossa config/pybossa/settings_local.py /app/pybossa/settings_local.py
 COPY --chown=pybossa:pybossa config/alembic/templates/alembic.ini.template /app/pybossa/alembic.ini.template
 COPY --chown=pybossa:pybossa --chmod=0755 docker/pybossa/entrypoint.sh /app/entrypoint.sh
 

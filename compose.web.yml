@@ -16,6 +16,8 @@ services:
       - "443:443"
     depends_on:
       - pybossa-server
+      - pybossa-worker
+      - pybossa-scheduler
   
   certbot:
     image: certbot/certbot:latest
