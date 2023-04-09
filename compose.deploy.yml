@@ -1,4 +1,16 @@
 services: 
+  pybossa-server:
+    env_file:
+      - ./config/env/.env.deploy
+
+  pybossa-worker:
+    env_file:
+      - ./config/env/.env.deploy
+
+  pybossa-scheduler:
+    env_file: 
+      - ./config/env/.env.deploy
+
   webserver:
     container_name: webserver
     image: nginx:latest
@@ -18,6 +30,8 @@ services:
       - pybossa-server
       - pybossa-worker
       - pybossa-scheduler
+    env_file:
+      - ./config/env/.env.deploy
   
   certbot:
     container_name: certbot
@@ -36,6 +50,9 @@ services:
     depends_on:
       - webserver
     entrypoint: ["/bin/sh", "-c", "certbot certonly --rsa-key-size 2048 --webroot --webroot-path=/var/www/certbot --force-renewal --email $${ADMIN_EMAIL} --agree-tos --no-eff-email -d $${HOST_NAME} -d $${HOST_NAME}"]
+    env_file:
+      - ./config/env/.env.deploy
+
     
 volumes:
   certbot-etc:

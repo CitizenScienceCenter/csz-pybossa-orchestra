@@ -13,7 +13,6 @@ services:
         target: /app/pybossa/settings_local.py
     env_file:
       - ./config/env/.env.dev
-      - ./config/env/.env.mail
     ports:
       - "5000:5000"
 
@@ -26,14 +25,12 @@ services:
         target: /app/pybossa/settings_local.py
     env_file:
       - ./config/env/.env.dev
-      - ./config/env/.env.mail
 
   pybossa-scheduler:
     networks:
       - postgres-net
     env_file:
       - ./config/env/.env.dev
-      - ./config/env/.env.mail
 
 networks:
   postgres-net:

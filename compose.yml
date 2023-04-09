@@ -56,6 +56,9 @@ services:
       - redis-replica
       - redis-sentinel
       - pybossa-scheduler
+    env_file:
+      - ./config/env/.env.secrets
+      - ./config/env/.env.mail
   
   pybossa-worker:
     container_name: pybossa-worker
@@ -72,6 +75,9 @@ services:
       - redis-replica
       - redis-sentinel
       - pybossa-scheduler
+    env_file:
+      - ./config/env/.env.secrets
+      - ./config/env/.env.mail
   
   pybossa-scheduler:
     container_name: pybossa-scheduler
@@ -87,6 +93,9 @@ services:
       - redis-master
       - redis-replica
       - redis-sentinel
+    env_file:
+      - ./config/env/.env.secrets
+      - ./config/env/.env.mail
 
 networks:  
   redis:
