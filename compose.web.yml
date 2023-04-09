@@ -28,8 +28,7 @@ services:
       - static-files:/var/www/certbot
     depends_on:
       - webserver
-    command: certonly --rsa-key-size 2048 --webroot --webroot-path=/var/www/certbot --force-renewal --email dev@citizenscience.ch  --agree-tos --no-eff-email -d pybossa-testing.citizenscience.ch  -d www.pybossa-testing.citizenscience.ch
-    #command: certonly --rsa-key-size 2048 --webroot --webroot-path=/var/www/certbot --force-renewal --email dev@citizenscience.ch  --agree-tos --no-eff-email -d pybossa-testing.citizenscience.ch  -d www.pybossa-testing.citizenscience.ch
+    command: ["certonly", "--rsa-key-size", "2048", "--webroot", "--webroot-path=/var/www/certbot", "--force-renewal", "--email", "dev@citizenscience.ch", "--agree-tos", "--no-eff-email", "-d", "pybossa-testing.citizenscience.ch",  "-d", "www.pybossa-testing.citizenscience.ch"]
 
 volumes:
   certbot-etc:

@@ -51,14 +51,13 @@ RUN pip install 'requests-oauthlib==1.0.0' --force-reinstall && \
     pip install 'oauthlib==2.1.0' --force-reinstall && \
     pip install 'sqlalchemy<2.0' --force-reinstall
 
+# copy pybossa settings files to pybossa project
+COPY --chown=pybossa:pybossa config/pybossa/settings_local.py /app/pybossa/settings_local.py
 
 FROM dependencies AS pybossa-scheduler
 LABEL ch.citizenscience.env="PROD"
 
-# copy static config files to pybossa project
-COPY --chown=pybossa:pybossa config/pybossa/settings_local.py /app/pybossa/settings_local.py
-
-## run worker
+## run scheduler
 CMD ["rqscheduler", "--host", "redis-master", "--port", "6379", "--interval", "60" , "--db",  "0"]
 
 
@@ -66,12 +65,11 @@ CMD ["rqscheduler", "--host", "redis-master", "--port", "6379", "--interval", "6
 FROM dependencies AS pybossa-worker
 LABEL ch.citizenscience.env="PROD"
 
-## copy static config files to pybossa project
-COPY --chown=pybossa:pybossa config/pybossa/settings_local.py /app/pybossa/settings_local.py
+## copy alembic config files to pybossa project
 COPY --chown=pybossa:pybossa config/alembic/templates/alembic.ini.template /app/pybossa/alembic.ini.template
 COPY --chown=pybossa:pybossa --chmod=0755 docker/pybossa/entrypoint.sh /app/entrypoint.sh
 
-## data base setup with env vars replacement for alembic based on different deployments (dev, test, stag, prod) 
+## data base setup with env vars replacement for alembic config file based on different deployments (dev, test, stag, prod) 
 ENTRYPOINT ["/app/entrypoint.sh"]
 
 ## run worker
@@ -96,8 +94,7 @@ LABEL ch.citizenscience.env="PROD"
 ## install uwsgi for production 
 RUN pip install uwsgi
 
-# copy static config files to pybossa project
-COPY --chown=pybossa:pybossa config/pybossa/settings_local.py /app/pybossa/settings_local.py
+# copy uwsgi config file to pybossa project
 COPY --chown=pybossa:pybossa config/uwsgi/pybossa.ini /app/pybossa/pybossa.ini
 
 ## [optional]: download and install custom theme for pybossa server

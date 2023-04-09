@@ -31,10 +31,6 @@ services:
   pybossa-scheduler:
     networks:
       - postgres-net
-    volumes:
-      - type: bind
-        source: ./config/pybossa/settings_local.dev.py
-        target: /app/pybossa/settings_local.py
     env_file:
       - ./config/env/.env.dev
       - ./config/env/.env.mail
