@@ -20,16 +20,23 @@ services:
       - pybossa-scheduler
   
   certbot:
-    image: certbot/certbot:latest
     container_name: certbot
+    # build: 
+    #   context: ./
+    #   dockerfile: ./docker/certbot/Dockerfile
+    #   target: base
+    # image: certbot/certbot:auto-renew
+    #restart: unless-stopped
+    image: certbot/certbot:latest
     volumes:
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
-      - static-files:/var/www/certbot
+      - static-files:/var/www/certbot:ro
+      #- ./config/nginx/dhparam/:/etc/ssl/certs
     depends_on:
       - webserver
-    command: ["certonly", "--rsa-key-size", "2048", "--webroot", "--webroot-path=/var/www/certbot", "--force-renewal", "--email", "dev@citizenscience.ch", "--agree-tos", "--no-eff-email", "-d", "pybossa-testing.citizenscience.ch",  "-d", "www.pybossa-testing.citizenscience.ch"]
-
+    entrypoint: ["/bin/sh", "-c", "certbot certonly --rsa-key-size 2048 --webroot --webroot-path=/var/www/certbot --force-renewal --email $${ADMIN_EMAIL} --agree-tos --no-eff-email -d $${HOST_NAME} -d $${HOST_NAME}"]
+    
 volumes:
   certbot-etc:
   certbot-var:

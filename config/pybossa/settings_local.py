@@ -77,7 +77,7 @@ CONTACT_TWITTER = 'PyBossa'
 
 
 ## list of administrator emails to which error emails get sent
-ADMINS = ['dev@citizenscience.ch']
+ADMINS = [env['ADMIN_EMAIL']]
 
 ## CKAN URL for API calls
 #CKAN_NAME = "Demo CKAN server"

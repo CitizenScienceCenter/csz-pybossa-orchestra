@@ -24,4 +24,3 @@ services:
   certbot:
     env_file:
       - ./config/env/.env.prod
-    command: certonly --rsa-key-size 2048 --webroot --webroot-path=/var/www/certbot --staging --email dev@citizenscience.ch  --agree-tos --no-eff-email -d ${HOST_NAME}  -d www.${HOST_NAME}
