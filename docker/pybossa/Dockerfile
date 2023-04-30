@@ -35,16 +35,16 @@ RUN python3 -m venv ${VENV_PATH}
 ENV PATH="${VENV_PATH}/bin:${PATH}"
 
 ## clone pybossa into the container (from github)
-WORKDIR /app/pybossa
-RUN git clone --recursive https://github.com/Scifabric/pybossa /app/pybossa && \
+WORKDIR ${APP_PATH}
+RUN git clone --recursive https://github.com/Scifabric/pybossa ${APP_PATH} && \
     pip install --upgrade pip && \
-    pip install -r /app/pybossa/requirements.txt
+    pip install -r ${APP_PATH}/requirements.txt
 
 ## [alternative]: copy local copy of pybossa to the container
-# WORKDIR /app/pybossa
-# COPY --chown=pybossa:pybossa apps/pybossa /app/pybossa
+# WORKDIR ${APP_PATH}
+# COPY --chown=pybossa:pybossa apps/pybossa ${APP_PATH}
 # RUN pip install --upgrade pip && \
-#     pip install -r /app/pybossa/requirements.txt
+#     pip install -r ${APP_PATH}/requirements.txt
     
 # reinstall older versions of broken dependencies
 RUN pip install 'requests-oauthlib==1.0.0' --force-reinstall && \
@@ -52,7 +52,7 @@ RUN pip install 'requests-oauthlib==1.0.0' --force-reinstall && \
     pip install 'sqlalchemy<2.0' --force-reinstall
 
 # copy pybossa settings files to pybossa project
-COPY --chown=pybossa:pybossa config/pybossa/settings_local.py /app/pybossa/settings_local.py
+COPY --chown=pybossa:pybossa config/pybossa/settings_local.py ${APP_PATH}/settings_local.py
 
 FROM dependencies AS pybossa-scheduler
 LABEL ch.citizenscience.env="PROD"
@@ -66,7 +66,7 @@ FROM dependencies AS pybossa-worker
 LABEL ch.citizenscience.env="PROD"
 
 ## copy alembic config files to pybossa project
-COPY --chown=pybossa:pybossa config/alembic/templates/alembic.ini.template /app/pybossa/alembic.ini.template
+COPY --chown=pybossa:pybossa config/alembic/templates/alembic.ini.template ${APP_PATH}/alembic.ini.template
 COPY --chown=pybossa:pybossa --chmod=0755 docker/pybossa/entrypoint.sh /app/entrypoint.sh
 
 ## data base setup with env vars replacement for alembic config file based on different deployments (dev, test, stag, prod) 
@@ -95,10 +95,10 @@ LABEL ch.citizenscience.env="PROD"
 RUN pip install uwsgi
 
 # copy uwsgi config file to pybossa project
-COPY --chown=pybossa:pybossa config/uwsgi/pybossa.ini /app/pybossa/pybossa.ini
+COPY --chown=pybossa:pybossa config/uwsgi/pybossa.ini ${APP_PATH}/pybossa.ini
 
 ## [optional]: download and install custom theme for pybossa server
-# RUN git clone --recursive https://github.com/MicroPasts/MicroPasts-pybossa-theme /app/pybossa/pybossa/themes/MicroPasts-pybossa-theme
+# RUN git clone --recursive https://github.com/MicroPasts/MicroPasts-pybossa-theme ${APP_PATH}/pybossa/themes/MicroPasts-pybossa-theme
 
 ## run server (prod)
 CMD ["/app/venv/bin/uwsgi", "--ini", "pybossa.ini"]

@@ -44,16 +44,18 @@ SQLALCHEMY_DATABASE_URI = env['POSTGRES_URL']
 
 ITSDANGEROUSKEY = env['ITSDANGEROUSKEY']
 
+THEME = 'default'
+
 ## project configuration
-BRAND = 'PyBossa'
-TITLE = 'PyBossa'
+BRAND = 'Citizen Science Center Zurich'
+TITLE = 'Citizen Science Center Zurich'
 LOGO = 'default_logo.svg'
-COPYRIGHT = 'Set Your Institution'
+COPYRIGHT = 'Citizen Science Center Zurich'
 DESCRIPTION = 'Set the description in your config'
 TERMSOFUSE = 'http://okfn.org/terms-of-use/'
 DATAUSE = 'http://opendatacommons.org/licenses/by/'
-CONTACT_EMAIL = 'info@pybossa.com'
-CONTACT_TWITTER = 'PyBossa'
+CONTACT_EMAIL = 'info@citizenscience.che'
+CONTACT_TWITTER = 'citscizurich'
 
 ## Default number of projects per page
 ## APPS_PER_PAGE = 20
