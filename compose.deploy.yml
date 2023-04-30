@@ -49,7 +49,8 @@ services:
       #- ./config/nginx/dhparam/:/etc/ssl/certs
     depends_on:
       - webserver
-    entrypoint: ["/bin/sh", "-c", "certbot certonly --rsa-key-size 2048 --webroot --webroot-path=/var/www/certbot --force-renewal --email $${ADMIN_EMAIL} --agree-tos --no-eff-email -d $${HOST_NAME} -d $${HOST_NAME}"]
+    #entrypoint: ["/bin/sh", "-c", "certbot certonly --rsa-key-size 2048 --webroot --webroot-path=/var/www/certbot --force-renewal --email $${ADMIN_EMAIL} --agree-tos --no-eff-email -d $${HOST_NAME} -d $${HOST_NAME}"]
+    entrypoint: ["/bin/sh", "-c", "certbot certonly --rsa-key-size 2048 --webroot --webroot-path=/var/www/certbot --staging --email $${ADMIN_EMAIL} --agree-tos --no-eff-email -d $${HOST_NAME} -d $${HOST_NAME}"]
     env_file:
       - ./config/env/.env.deploy
 
