@@ -14,7 +14,7 @@ services:
     env_file:
       - ./config/env/.env.dev
     ports:
-      - "5000:5000"
+      - "5005:5000"
 
   pybossa-worker:
     networks:
@@ -36,3 +36,4 @@ networks:
   postgres-net:
     name: pybossa-postgres-net
     external: true
+  

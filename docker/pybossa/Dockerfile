@@ -37,7 +37,6 @@ ENV PATH="${VENV_PATH}/bin:${PATH}"
 ## clone pybossa into the container (from github)
 WORKDIR ${APP_PATH}
 RUN git clone --recursive https://github.com/Scifabric/pybossa ${APP_PATH} && \
-    pip install --upgrade pip && \
     pip install -r ${APP_PATH}/requirements.txt
 
 ## [alternative]: copy local copy of pybossa to the container

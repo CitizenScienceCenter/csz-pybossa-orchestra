@@ -169,7 +169,7 @@ ACCOUNT_LINK_EXPIRATION = 5 * 60 * 60
 # PER = 15 * 60
 
 # Disable new account confirmation (via email)
-ACCOUNT_CONFIRMATION_DISABLED = True
+ACCOUNT_CONFIRMATION_DISABLED = False
 
 # Mailchimp API key
 # MAILCHIMP_API_KEY = "your-key"
@@ -247,7 +247,7 @@ LIBSASS_STYLE = 'compressed'
 
 
 # Enable two factor authentication
-ENABLE_TWO_FACTOR_AUTH = True
+# ENABLE_TWO_FACTOR_AUTH = True
 
 # Strong password policy for user accounts
 # ENABLE_STRONG_PASSWORD = True

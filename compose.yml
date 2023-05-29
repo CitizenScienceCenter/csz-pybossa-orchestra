@@ -8,7 +8,7 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - redis
+      - redis-net
   
   redis-replica:
     container_name: redis-replica
@@ -21,7 +21,7 @@ services:
     depends_on:
       - redis-master
     networks:
-      - redis
+      - redis-net
 
   redis-sentinel:
     container_name: redis-sentinel
@@ -35,7 +35,7 @@ services:
       - redis-master
       - redis-replica
     networks:
-      - redis
+      - redis-net
   
   pybossa-server:
     container_name: pybossa-server
@@ -54,8 +54,8 @@ services:
       dockerfile: ./docker/pybossa/Dockerfile
       target: pybossa-server
     networks:
-      - redis
-      - backend
+      - redis-net
+      - backend-net
     depends_on:
       - redis-master
       - redis-replica
@@ -73,8 +73,8 @@ services:
       dockerfile: ./docker/pybossa/Dockerfile
       target: pybossa-worker
     networks:
-      - redis
-      - backend
+      - redis-net
+      - backend-net
     depends_on:
       - redis-master
       - redis-replica
@@ -92,8 +92,8 @@ services:
       dockerfile: ./docker/pybossa/Dockerfile
       target: pybossa-scheduler
     networks:
-      - redis
-      - backend
+      - redis-net
+      - backend-net
     depends_on:
       - redis-master
       - redis-replica
@@ -103,8 +103,9 @@ services:
       - ./config/env/.env.mail
 
 networks:  
-  redis:
-  backend:
+  redis-net:
+  backend-net:
+    name: pybossa-backend-net
 
 volumes:
   static-files:

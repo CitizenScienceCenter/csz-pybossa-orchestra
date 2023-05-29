@@ -25,6 +25,8 @@ ENABLE_DEBUG_TOOLBAR = False
 ## host for local development
 HOST = '0.0.0.0'
 
+# APPLICATION_ROOT = '/pybossa'
+
 ## PORT used for local development, in production environment let nginx handle this
 # PORT = 8080
 
