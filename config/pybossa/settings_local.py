@@ -47,10 +47,10 @@ ITSDANGEROUSKEY = env['ITSDANGEROUSKEY']
 THEME = 'default'
 
 ## project configuration
-BRAND = 'Citizen Science Center Zurich'
-TITLE = 'Citizen Science Center Zurich'
+BRAND = 'Citizen Science Zurich'
+TITLE = 'Citizen Science Zurich'
 LOGO = 'default_logo.svg'
-COPYRIGHT = 'Citizen Science Center Zurich'
+COPYRIGHT = 'Citizen Science Zurich'
 DESCRIPTION = 'Set the description in your config'
 TERMSOFUSE = 'http://okfn.org/terms-of-use/'
 DATAUSE = 'http://opendatacommons.org/licenses/by/'

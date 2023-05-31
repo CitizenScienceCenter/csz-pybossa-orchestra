@@ -1,61 +1,15 @@
 server {
     listen 80;
-    listen [::]:80;
     server_name ${HOST_NAME} www.${HOST_NAME};
-
-    location ~ /.well-known/acme-challenge {
-        allow all;
-        root /app/static;
-    }
-
-    location / {
-            rewrite ^ https://$host$request_uri? permanent;
-    }
-}
-
-server {
-    listen 443 ssl http2;
-    listen [::]:443 ssl http2;
-    server_name ${HOST_NAME} www.${HOST_NAME};
-
-    # add_header 'client_max_body_size' '100M';
-    # add_header 'Access-Control-Allow-Credentials' 'true' always;
-    # add_header 'Access-Control-Allow-Methods' 'GET,PUT,POST,PATCH,OPTIONS,PUT';
-    # add_header 'Access-Control-Allow-Headers' 'X-CSRFToken,X-Csrf-Token,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
-
     large_client_header_buffers 4 32k;
     real_ip_header X-Forwarded-For;
 
     # change that to your pybossa directory
     # root /app/pybossa; #changed
-    # root /app/pybossa/pybossa
+    # root /app/pybossa;
 
     client_max_body_size 5M;
 
-    server_tokens off;
-
-    ssl_certificate /etc/letsencrypt/live/${HOST_NAME}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/${HOST_NAME}/privkey.pem;
-
-    ssl_session_timeout 5m;
-    
-    ssl_buffer_size 8k;
-
-    ssl_session_cache shared:SSL:10m;
-    ssl_dhparam /etc/ssl/certs/dhparam-2048.pem;
-
-    ssl_protocols TLSv1.2;
-    ssl_prefer_server_ciphers on;
-
-    ssl_ciphers ECDH+AESGCM:ECDH+AES256:ECDH+AES128:DH+3DES:!ADH:!AECDH:!MD5;
-    #ssl_ciphers 'EECDH+AESGCM: EDH+AESGCM:AES256+EECDH:AES256+EDH';
-
-    ssl_ecdh_curve secp384r1;
-    ssl_session_tickets off;
-
-    ssl_stapling on;
-    ssl_stapling_verify on;
-    resolver 8.8.8.8;
 
 if (-f /app/pybossa/pybossa/503.html) {
     return 503;
@@ -63,18 +17,18 @@ if (-f /app/pybossa/pybossa/503.html) {
 
 error_page 503 @maintenance;
 
-location /backend { try_files $uri @pybossa; }
+location / { try_files $uri @pybossa; }
 
 location @pybossa {
     include uwsgi_params;
     uwsgi_pass unix:/app/uwsgi/pybossa.sock;
-    #uwsgi_pass pybossa-server:5000;
 }
 
 location  /static {
             # change that to your pybossa static directory
             # alias /app/pybossa/pybossa/themes/default/static; #changed
             alias /app/static; #changed
+
             autoindex on;
             expires max;
         }

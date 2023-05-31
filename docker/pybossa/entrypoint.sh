@@ -29,7 +29,7 @@ else
 fi
 
 # migrate to new database layout (if applicable)
-alembic upgrade head
+# alembic upgrade head
 
 # This will exec the CMD from Dockerfile
 exec "$@"
