@@ -68,7 +68,6 @@ location /pybossa { try_files $uri @pybossa; }
 location @pybossa {
     include uwsgi_params;
     uwsgi_pass unix:/app/uwsgi/pybossa.sock;
-    #uwsgi_pass pybossa-server:5000;
 }
 
 location  /static {
