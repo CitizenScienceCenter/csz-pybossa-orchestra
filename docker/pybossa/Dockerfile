@@ -19,7 +19,14 @@ RUN apt-get update && apt-get install -y \
     libdbus-1-dev \
     libdbus-glib-1-dev \
     libsasl2-dev \
-    libldap2-dev \
+    libldap2-dev \ 
+    g++ \
+    gcc \
+    libffi-dev \ 
+    libxml2-dev \
+    libxslt-dev \
+    musl-dev \ 
+    openssl \
     && rm -rf /var/lib/apt/lists/*
 
 ## permissions and pybossa user for tightened security
@@ -36,8 +43,12 @@ ENV PATH="${VENV_PATH}/bin:${PATH}"
 
 ## clone pybossa into the container (from github)
 WORKDIR ${APP_PATH}
-RUN git clone --recursive https://github.com/Scifabric/pybossa ${APP_PATH} && \
+
+RUN git clone --recursive --branch develop https://github.com/CitizenScienceCenter/pybossa.git ${APP_PATH} && \
     pip install -r ${APP_PATH}/requirements.txt
+
+# RUN git clone --recursive https://github.com/Scifabric/pybossa.git ${APP_PATH} && \
+#     pip install -r ${APP_PATH}/requirements.txt
 
 ## [alternative]: copy local copy of pybossa to the container
 # WORKDIR ${APP_PATH}
