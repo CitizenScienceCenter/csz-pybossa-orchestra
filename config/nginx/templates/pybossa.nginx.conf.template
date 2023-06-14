@@ -63,7 +63,7 @@ if (-f /app/pybossa/pybossa/503.html) {
 
 error_page 503 @maintenance;
 
-location / { try_files $uri @pybossa; }
+location /pybossa { try_files $uri @pybossa; }
 
 location @pybossa {
     include uwsgi_params;
