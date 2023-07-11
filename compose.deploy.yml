@@ -12,24 +12,11 @@ services:
       - ./config/env/.env.deploy
 
   webserver:
-    container_name: webserver
-    image: nginx:latest
-    restart: always
     volumes:
-      - ./config/nginx/templates:/etc/nginx/templates
-      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./config/nginx/dhparam/:/etc/ssl/certs
-      - uwsgi-socket:/app/uwsgi/:ro
-      - static-files:/app/static:ro
       - certbot-etc:/etc/letsencrypt:ro
       - certbot-var:/var/lib/letsencrypt:ro
     ports:
-      - "80:80"
       - "443:443"
-    depends_on:
-      - pybossa-server
-      - pybossa-worker
-      - pybossa-scheduler
     env_file:
       - ./config/env/.env.deploy
   
