@@ -29,6 +29,8 @@ RUN apt-get update && apt-get install -y \
     openssl \
     && rm -rf /var/lib/apt/lists/*
 
+   
+
 ## permissions and pybossa user for tightened security
 RUN adduser pybossa
 RUN mkdir /app && chown -R pybossa:pybossa /app
@@ -44,8 +46,16 @@ ENV PATH="${VENV_PATH}/bin:${PATH}"
 ## clone pybossa into the container (from github)
 WORKDIR ${APP_PATH}
 
-RUN git clone --recursive --branch develop https://github.com/CitizenScienceCenter/pybossa.git ${APP_PATH} && \
-    pip install -r ${APP_PATH}/requirements.txt
+# RUN echo "wows"
+COPY docker/pybossa/requirements.txt ${APP_PATH}/requirements.txt
+
+RUN pip install -r ${APP_PATH}/requirements.txt && \
+    rm ${APP_PATH}/requirements.txt
+
+RUN git clone --recursive --branch develop https://github.com/CitizenScienceCenter/pybossa.git ${APP_PATH}
+
+# RUN git clone --recursive --branch develop https://github.com/CitizenScienceCenter/pybossa.git ${APP_PATH} && \
+#     pip install -r ${APP_PATH}/requirements.txt
 
 ## [alternative]: copy local copy of pybossa to the container
 # WORKDIR ${APP_PATH}
@@ -56,10 +66,10 @@ RUN git clone --recursive --branch develop https://github.com/CitizenScienceCent
 # RUN git clone --recursive https://github.com/Scifabric/pybossa.git ${APP_PATH} && \
 #     pip install -r ${APP_PATH}/requirements.txt
 
-# # reinstall older versions of broken dependencies
+# reinstall older versions of broken dependencies
 # RUN pip install 'requests-oauthlib==1.0.0' --force-reinstall && \
 #     pip install 'oauthlib==2.1.0' --force-reinstall && \
-#     pip install 'sqlalchemy<2.0' --force-reinstall
+#     pip install 'sqlalchemy=1.4.11' --force-reinstall
 
 # copy pybossa settings files to pybossa project
 COPY --chown=pybossa:pybossa config/pybossa/settings_local.py ${APP_PATH}/settings_local.py
