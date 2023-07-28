@@ -1,12 +1,3 @@
-upstream frontend {
-        # server backend1.example.com weight=5;
-        # server backend2.example.com;
-        # server 192.0.0.1 backup;
-        # server c3s:80;
-        server 192.168.0.9:80;
-    }
-
-
 server {
     listen 80;
     server_name ${HOST_NAME} www.${HOST_NAME};
@@ -17,6 +8,7 @@ server {
     # proxy_buffer_size 16k;
 
     # change that to your pybossa directory
+    
     # root /app/pybossa; #changed
 
     client_max_body_size 5M;
@@ -28,66 +20,6 @@ if (-f /app/pybossa/pybossa/503.html) {
 
 error_page 503 @maintenance;
 
-# location /static/ {
-#     proxy_pass http://frontend/;
-#     proxy_http_version  1.1;
-#     proxy_cache_bypass  $http_upgrade;
-
-#     proxy_set_header Upgrade           $http_upgrade;
-#     proxy_set_header Connection        "upgrade";
-#     proxy_set_header Host              $host;
-#     proxy_set_header X-Real-IP         $remote_addr;
-#     proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
-#     proxy_set_header X-Forwarded-Proto $scheme;
-#     proxy_set_header X-Forwarded-Host  $host;
-#     proxy_set_header X-Forwarded-Port  $server_port;
-#     proxy_buffering  off;
-# }
-
-
-location / {
-    root   /usr/share/nginx/html;
-    proxy_pass http://frontend;
-    proxy_http_version  1.1;
-    proxy_cache_bypass  $http_upgrade;
-
-    proxy_set_header Upgrade           $http_upgrade;
-    proxy_set_header Connection        "upgrade";
-    proxy_set_header Host              $host;
-    proxy_set_header X-Real-IP         $remote_addr;
-    proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_set_header X-Forwarded-Host  $host;
-    proxy_set_header X-Forwarded-Port  $server_port;
-    proxy_buffering  off;
-
-
-
-        # proxy_set_header   Host            $http_host;
-        # proxy_set_header   X-Real-IP       $remote_addr;
-        # proxy_set_header   X-NginX-Proxy   true;
-        # proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-        # proxy_http_version 1.1;
-        # proxy_redirect     off;
-        # proxy_buffering    off;
-        # proxy_buffering off;
-
-        # proxy_set_header Host $host;
-        # proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        # proxy_set_header X-Real-IP $remote_addr;
-
-        # proxy_http_version  1.1;
-        # proxy_set_header Host $host;
-        # proxy_set_header X-Real-IP $remote_addr;
-        # proxy_buffer_size 2k;
-        # proxy_buffering off;
-        # proxy_bind $server_addr;
-
-        # proxy_set_header X-Real-IP $remote_addr;
-        # proxy_set_header X-Forwarded-Host $host;
-        # proxy_set_header X-Forwarded-Port $server_port;
-        
-    }
 
 location /pybossa { 
     try_files $uri @pybossa; 

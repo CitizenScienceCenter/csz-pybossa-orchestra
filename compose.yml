@@ -114,8 +114,6 @@ services:
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
       - uwsgi-socket:/app/uwsgi/:ro
       - static-files:/app/static:ro
-    ports:
-      - "80:80"
     depends_on:
       - pybossa-server
       - pybossa-worker
@@ -125,7 +123,7 @@ networks:
   redis:
   backend:
   web:
-    name: pybossa-backend-net
+    name: pybossa-web-net
 
 volumes:
   static-files:
