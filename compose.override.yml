@@ -20,8 +20,12 @@ services:
   webserver:
     env_file:
       - ./config/env/.env.dev
+    networks:
+      - web
 
 networks:
+  web:
+    name: pybossa-web-net
   postgres-net:
     name: pybossa-postgres-net
     external: true
