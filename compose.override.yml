@@ -25,3 +25,4 @@ networks:
   postgres-net:
     name: pybossa-postgres-net
     external: true
+  

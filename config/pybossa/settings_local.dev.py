@@ -23,17 +23,18 @@ DEBUG = False
 ENABLE_DEBUG_TOOLBAR = False
 
 ## host for local development
-# HOST = '0.0.0.0'
+HOST = '0.0.0.0'
+
+# APPLICATION_ROOT = '/pybossa'
 
 ## PORT used for local development, in production environment let nginx handle this
 # PORT = 8080
 
 ## use SERVER_NAME instead of HOST for production environment with real URLs
-SERVER_NAME = env['HOST_NAME']
+# SERVER_NAME = 'somecoolurl.com'
 
-
-SECRET = env['FLASK_SESSIONS_SECRET']
-SECRET_KEY = env['FLASK_SESSIONS_SECRET_KEY']
+SECRET = 'foobar'
+SECRET_KEY = 'my-session-secret'
 
 SQLALCHEMY_DATABASE_URI = env['POSTGRES_URL']
 
@@ -42,20 +43,22 @@ SQLALCHEMY_DATABASE_URI = env['POSTGRES_URL']
 #    'slave': 'postgresql://user:password@server/db'
 #}
 
-ITSDANGEROUSKEY = env['ITSDANGEROUSKEY']
+ITSDANGEROUSKEY = 'its-dangerous-key'
 
-THEME = 'default'
 
 ## project configuration
-BRAND = 'Citizen Science Zurich'
-TITLE = 'Citizen Science Zurich'
+BRAND = 'PyBossa'
+TITLE = 'PyBossa'
 LOGO = 'default_logo.svg'
-COPYRIGHT = 'Citizen Science Zurich'
+COPYRIGHT = 'Set Your Institution'
 DESCRIPTION = 'Set the description in your config'
 TERMSOFUSE = 'http://okfn.org/terms-of-use/'
 DATAUSE = 'http://opendatacommons.org/licenses/by/'
-CONTACT_EMAIL = 'info@citizenscience.che'
-CONTACT_TWITTER = 'citscizurich'
+CONTACT_EMAIL = 'info@pybossa.com'
+CONTACT_TWITTER = 'PyBossa'
+
+## Custom theme
+# THEME = 'MicroPasts-pybossa-theme'
 
 ## Default number of projects per page
 ## APPS_PER_PAGE = 20
@@ -79,7 +82,7 @@ CONTACT_TWITTER = 'citscizurich'
 
 
 ## list of administrator emails to which error emails get sent
-ADMINS = [env['ADMIN_EMAIL']]
+# ADMINS = ['me@sysadmin.org']
 
 ## CKAN URL for API calls
 #CKAN_NAME = "Demo CKAN server"
@@ -96,7 +99,7 @@ ADMINS = [env['ADMIN_EMAIL']]
 # LOG_LEVEL = logging.DEBUG
 
 ## Mail setup
-# MAIL_SERVER = 'localhost'
+# MAIL_SERVER = 'pybossa-server'
 # MAIL_USERNAME = None
 # MAIL_PASSWORD = None
 # MAIL_PORT = 25
@@ -111,8 +114,6 @@ MAIL_PORT = env['MAIL_PORT']
 MAIL_USE_SSL = True
 MAIL_FAIL_SILENTLY = False
 MAIL_DEFAULT_SENDER = env['MAIL_DEFAULT_SENDER']
-#MAIL_DEFAULT_SENDER = "PyBossa Support <info@pybossa.com>"
-
 
 ## Announcement messages
 ## Use any combination of the next type of messages: root, user, and app owners
@@ -164,12 +165,12 @@ PASSWD_COOKIE_TIMEOUT = 60 * 30
 # Expiration time for account confirmation / password recovery links
 ACCOUNT_LINK_EXPIRATION = 5 * 60 * 60
 
-## Ratelimit configuration (API)
+## Ratelimit configuration
 # LIMIT = 300
 # PER = 15 * 60
 
 # Disable new account confirmation (via email)
-ACCOUNT_CONFIRMATION_DISABLED = False
+ACCOUNT_CONFIRMATION_DISABLED = True
 
 # Mailchimp API key
 # MAILCHIMP_API_KEY = "your-key"
@@ -275,20 +276,20 @@ LIBSASS_STYLE = 'compressed'
 #                        'name': 'uid',
 #                        'email_addr': 'cn'}
 ## Flask profiler
-# FLASK_PROFILER = {
-#     "enabled": True,
-#     "storage": {
-#         "engine": "sqlite"
-#     },
-#     "basicAuth":{
-#         "enabled": True,
-#         "username": "admin",
-#         "password": "admin"
-#     },
-#     "ignore": [
-# 	    "^/static/.*"
-# 	]
-# }
+FLASK_PROFILER = {
+    "enabled": True,
+    "storage": {
+        "engine": "sqlite"
+    },
+    "basicAuth":{
+        "enabled": True,
+        "username": "admin",
+        "password": "admin"
+    },
+    "ignore": [
+	    "^/static/.*"
+	]
+}
 # Specify which key from the info field of task, task_run or result is going to be used as the root key
 # for exporting in CSV format
 # TASK_CSV_EXPORT_INFO_KEY = 'key'
@@ -299,7 +300,7 @@ LIBSASS_STYLE = 'compressed'
 # NOTE: this is really important, don't use the following one
 # as anyone with the source code of pybossa will be able to reverse
 # the anonymization of the IPs.
-CRYPTOPAN_KEY = env['CRYPTOPAN_KEY']
+CRYPTOPAN_KEY = '32-char-str-for-AES-key-and-pad.'
 
 # TTL for ZIP files of personal data
 TTL_ZIP_SEC_FILES = 3
@@ -312,7 +313,6 @@ AVATAR_ABSOLUTE = True
 
 # Inactive users months to send email notification
 USER_INACTIVE_NOTIFICATION = 5
-
 # Inactive users months to delete users
 USER_INACTIVE_DELETE = 6
 
@@ -320,8 +320,3 @@ USER_INACTIVE_DELETE = 6
 INACTIVE_USERS_SQL_QUERY = """SELECT user_id FROM task_run WHERE user_id IS NOT NULL AND to_date(task_run.finish_time, 'YYYY-MM-DD\THH24:MI:SS.US') >= NOW() - '12 month'::INTERVAL AND to_date(task_run.finish_time, 'YYYY-MM-DD\THH24:MI:SS.US') < NOW() - '3 month'::INTERVAL GROUP BY user_id ORDER BY user_id;"""
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-## When you are using PYBOSSA native JSON support, you will not be building your project presenter within the PYBOSSA structure, but within the JS framework of your choice.
-## In such a case, you would like to disable the check for the task_presenter when publishing a project. 
-## If you need this, just add this flag to your settings_local.py file:
-DISABLE_TASK_PRESENTER = True
