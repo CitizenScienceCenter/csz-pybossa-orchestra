@@ -42,14 +42,8 @@ services:
     image: pybossa:server
     volumes:
       - ./uploads:/app/uploads
-      # - pybossa-root:/app/pybossa
       - static-files:/app/pybossa/pybossa/themes/default/static
       - uwsgi-socket:/tmp/
-      # - type: volume
-      #   source: uploads-nfs
-      #   target: /app/uploads
-      #   volume:
-      #     nocopy: true
     build: 
       context: ./
       dockerfile: ./docker/pybossa/Dockerfile
@@ -128,10 +122,4 @@ networks:
 volumes:
   static-files:
   uwsgi-socket:
-  # pybossa-root:
-  # uploads-nfs:
-  #   driver_opts:
-  #     type: "nfs"
-  #     o: "addr=db-master-testing.c3s.internal,nolock,soft,rw"
-  #     device: ":/nfs/uploads"
 
