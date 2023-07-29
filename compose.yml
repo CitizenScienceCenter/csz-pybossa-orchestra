@@ -44,11 +44,6 @@ services:
       - ./uploads:/app/uploads
       - static-files:/app/pybossa/pybossa/themes/default/static
       - uwsgi-socket:/tmp/
-      # - type: volume
-      #   source: uploads-nfs
-      #   target: /app/uploads
-      #   volume:
-      #     nocopy: true
     build: 
       context: ./
       dockerfile: ./docker/pybossa/Dockerfile
@@ -102,17 +97,29 @@ services:
       - ./config/env/.env.secrets
       - ./config/env/.env.mail
 
+  webserver:
+    container_name: webserver
+    image: nginx:latest
+    restart: always
+    networks:
+      - web
+    volumes:
+      - ./config/nginx/templates:/etc/nginx/templates
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - uwsgi-socket:/app/uwsgi/:ro
+      - static-files:/app/static:ro
+    depends_on:
+      - pybossa-server
+      - pybossa-worker
+      - pybossa-scheduler
+
 networks:  
-  redis-net:
-  backend-net:
-    name: pybossa-backend-net
+  redis:
+  backend:
+  web:
+    name: pybossa-web-net
 
 volumes:
   static-files:
   uwsgi-socket:
-  # uploads-nfs:
-  #   driver_opts:
-  #     type: "nfs"
-  #     o: "addr=db-master-testing.c3s.internal,nolock,soft,rw"
-  #     device: ":/nfs/uploads"
 

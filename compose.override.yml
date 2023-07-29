@@ -1,34 +1,23 @@
 services:
   pybossa-server:
-    image: pybossa:server-dev
-    build: 
-      context: ./
-      dockerfile: ./docker/pybossa/Dockerfile
-      target: pybossa-server-dev
     networks:
       - postgres-net
-    volumes:
-      - type: bind
-        source: ./config/pybossa/settings_local.dev.py
-        target: /app/pybossa/settings_local.py
     env_file:
       - ./config/env/.env.dev
-    ports:
-      - "5005:5000"
 
   pybossa-worker:
     networks:
       - postgres-net
-    volumes:
-      - type: bind
-        source: ./config/pybossa/settings_local.dev.py
-        target: /app/pybossa/settings_local.py
     env_file:
       - ./config/env/.env.dev
 
   pybossa-scheduler:
     networks:
       - postgres-net
+    env_file:
+      - ./config/env/.env.dev
+  
+  webserver:
     env_file:
       - ./config/env/.env.dev
 

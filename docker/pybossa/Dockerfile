@@ -42,8 +42,7 @@ RUN git clone --recursive https://github.com/Scifabric/pybossa ${APP_PATH} && \
 ## [alternative]: copy local copy of pybossa to the container
 # WORKDIR ${APP_PATH}
 # COPY --chown=pybossa:pybossa apps/pybossa ${APP_PATH}
-# RUN pip install --upgrade pip && \
-#     pip install -r ${APP_PATH}/requirements.txt
+# RUN pip install -r ${APP_PATH}/requirements.txt
     
 # reinstall older versions of broken dependencies
 RUN pip install 'requests-oauthlib==1.0.0' --force-reinstall && \
@@ -73,17 +72,6 @@ ENTRYPOINT ["/app/entrypoint.sh"]
 
 ## run worker
 CMD ["python", "app_context_rqworker.py", "scheduled_jobs", "super", "high", "medium", "low" , "email",  "maintenance"]
-
-
-
-FROM dependencies AS pybossa-server-dev
-LABEL ch.citizenscience.env="DEV"
-
-## expose port for dev environment
-EXPOSE 5000
-
-## run server (dev)
-CMD ["python", "run.py"]
 
 
 
