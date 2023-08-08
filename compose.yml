@@ -2,6 +2,14 @@ services:
   redis-master:
     container_name: redis-master
     image: redis:latest
+    # command: ["redis-server", "/usr/local/etc/redis/master.conf"]
+    # volumes:
+    #   - ./config/redis-master:/usr/local/etc/redis
+    # image: redis:master
+    # build: 
+    #   context: ./
+    #   dockerfile: ./docker/redis/Dockerfile
+    #   target: redis-master
     ports:
       - "6379:6379"
     networks:
@@ -9,10 +17,11 @@ services:
   
   redis-replica:
     container_name: redis-replica
-    image: redis:latest
-    command: ["redis-server", "/usr/local/etc/redis/replica.conf"]
-    volumes:
-      - ./config/redis-replica:/usr/local/etc/redis
+    image: redis:replica
+    build: 
+      context: ./
+      dockerfile: ./docker/redis/Dockerfile
+      target: redis-replica
     ports:
       - "6380:6379"
     depends_on:
@@ -22,10 +31,11 @@ services:
 
   redis-sentinel:
     container_name: redis-sentinel
-    image: redis:latest
-    command: ["redis-server", "/usr/local/etc/redis/sentinel.conf",  "--sentinel"]
-    volumes:
-      - ./config/redis-sentinel:/usr/local/etc/redis
+    image: redis:sentinel
+    build: 
+      context: ./
+      dockerfile: ./docker/redis/Dockerfile
+      target: redis-sentinel
     ports:
       - "26379:26379"
     depends_on:
@@ -112,7 +122,6 @@ networks:
   redis:
   backend:
   
-
 volumes:
   static-files:
   uwsgi-socket:

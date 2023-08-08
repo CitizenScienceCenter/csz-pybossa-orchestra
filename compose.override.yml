@@ -1,19 +1,19 @@
 services:
   pybossa-server:
     networks:
-      - postgres-net
+      - postgres
     env_file:
       - ./config/env/.env.dev
 
   pybossa-worker:
     networks:
-      - postgres-net
+      - postgres
     env_file:
       - ./config/env/.env.dev
 
   pybossa-scheduler:
     networks:
-      - postgres-net
+      - postgres
     env_file:
       - ./config/env/.env.dev
   
@@ -26,7 +26,8 @@ services:
 networks:
   web:
     name: pybossa-web-net
-  postgres-net:
+  postgres:
     name: pybossa-postgres-net
     external: true
+  
   
