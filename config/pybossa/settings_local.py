@@ -28,9 +28,15 @@ ENABLE_DEBUG_TOOLBAR = False
 ## PORT used for local development, in production environment let nginx handle this
 # PORT = 8080
 
+## config parameters from csz zurich adaptions to pybossa (project approval)
+PLATFORM_URL = 'https://' + env['HOST_NAME'] + '/pybossa'
+LAB_URL='https://' + env['HOST_NAME']
+
+INFO_RECIEPIENTS = 'lab@citizenscience.ch'
+
+
 ## use SERVER_NAME instead of HOST for production environment with real URLs
 SERVER_NAME = env['HOST_NAME']
-
 
 SECRET = env['FLASK_SESSIONS_SECRET']
 SECRET_KEY = env['FLASK_SESSIONS_SECRET_KEY']
@@ -169,18 +175,22 @@ ACCOUNT_LINK_EXPIRATION = 5 * 60 * 60
 # PER = 15 * 60
 
 # Disable new account confirmation (via email)
-ACCOUNT_CONFIRMATION_DISABLED = False
+ACCOUNT_CONFIRMATION_DISABLED = True
 
 # Mailchimp API key
 # MAILCHIMP_API_KEY = "your-key"
 # MAILCHIMP_LIST_ID = "your-list-ID"
 
 # Flickr API key and secret
-# FLICKR_API_KEY = 'your-key'
-# FLICKR_SHARED_SECRET = 'your-secret'
+FLICKR_API_KEY = env['FLICKR_API_KEY']
+FLICKR_SHARED_SECRET = env['FLICKR_SHARED_SECRET']
 
 # Dropbox app key
-# DROPBOX_APP_KEY = 'your-key'
+DROPBOX_APP_KEY = env['DROPBOX_APP_KEY']
+
+# Twitter consumer key
+TWITTER_CONSUMER_KEY = env['TWITTER_CONSUMER_KEY']
+TWITTER_CONSUMER_SECRET = env['TWITTER_CONSUMER_SECRET']
 
 # Send emails weekly update every
 # WEEKLY_UPDATE_STATS = 'Sunday'

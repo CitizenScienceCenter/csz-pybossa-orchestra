@@ -7,6 +7,7 @@ server {
     # change that to your pybossa directory
     # root /app/pybossa; #changed
 
+    # client_max_body_size 100m;
     client_max_body_size 5M;
 
 
@@ -16,18 +17,16 @@ if (-f /app/pybossa/pybossa/503.html) {
 
 error_page 503 @maintenance;
 
-
 location /pybossa { 
     try_files $uri @pybossa; 
 }
 
 location @pybossa {
-    # proxy_pass_header X-CSRF-TOKEN;
     include uwsgi_params;
     uwsgi_pass unix:/app/uwsgi/pybossa.sock;
 }
 
-location  pybossa/static {
+location  /pybossa/static  {
             # change that to your pybossa static directory
             # alias /app/pybossa/pybossa/themes/default/static; #changed
             alias /app/static; #changed
@@ -37,12 +36,10 @@ location  pybossa/static {
         }
 
 location ~ /api/app {
-        # proxy_pass_header X-CSRF-TOKEN;
         rewrite ^/api/app /api/project$1 permanent;
 }
 
 location ~ /app {
-        # proxy_pass_header X-CSRF-TOKEN;
         rewrite ^/app(.*) /project$1 permanent;
 }
 
