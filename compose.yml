@@ -96,8 +96,6 @@ services:
     networks:
       - redis
       - backend
-      - redis
-      - backend
     depends_on:
       - redis-master
       - redis-replica
@@ -124,7 +122,6 @@ networks:
   redis:
   backend:
   
-
 volumes:
   static-files:
   uwsgi-socket:
