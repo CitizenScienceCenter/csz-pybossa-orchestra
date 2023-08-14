@@ -2,6 +2,7 @@ services:
   redis-master:
     container_name: redis-master
     image: redis:latest
+    restart: always
     ports:
       - "6379:6379"
     networks:
@@ -9,6 +10,7 @@ services:
   
   redis-replica:
     container_name: redis-replica
+    restart: always
     image: redis:replica
     build: 
       context: ./
@@ -24,6 +26,7 @@ services:
   redis-sentinel:
     container_name: redis-sentinel
     image: redis:sentinel
+    restart: always
     build: 
       context: ./
       dockerfile: ./docker/redis/Dockerfile
@@ -38,6 +41,7 @@ services:
   
   pybossa-server:
     container_name: pybossa-server
+    restart: unless-stopped
     image: pybossa:server
     volumes:
       - ./uploads:/app/uploads
@@ -61,6 +65,7 @@ services:
   
   pybossa-worker:
     container_name: pybossa-worker
+    restart: unless-stopped
     image: pybossa:worker
     build: 
       context: ./
@@ -80,6 +85,7 @@ services:
   
   pybossa-scheduler:
     container_name: pybossa-scheduler
+    restart: unless-stopped
     image: pybossa:scheduler
     build: 
       context: ./
