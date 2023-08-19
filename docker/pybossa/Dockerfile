@@ -43,19 +43,18 @@ ENV VENV_PATH=/app/venv
 RUN python3 -m venv ${VENV_PATH}
 ENV PATH="${VENV_PATH}/bin:${PATH}"
 
-## clone pybossa into the container (from github)
+## install dependencies
 WORKDIR ${APP_PATH}
 
 COPY --chown=pybossa:pybossa docker/pybossa/requirements.txt ${APP_PATH}/requirements.txt 
 RUN pip install -r ${APP_PATH}/requirements.txt && \
     rm ${APP_PATH}/requirements.txt
 
+## clone pybossa into the container (from github)
 RUN git clone --recursive --branch prod https://github.com/CitizenScienceCenter/pybossa.git ${APP_PATH}
 
 ## [alternative]: copy local copy of pybossa to the container
-# WORKDIR ${APP_PATH}
 # COPY --chown=pybossa:pybossa apps/pybossa ${APP_PATH}
-# RUN pip install -r ${APP_PATH}/requirements.txt
 
 # copy pybossa settings files to pybossa project
 COPY --chown=pybossa:pybossa config/pybossa/settings_local.py ${APP_PATH}/settings_local.py
