@@ -5,6 +5,11 @@ FLASK_SESSIONS_SECRET=<32-char-str>
 FLASK_SESSIONS_SECRET_KEY=<32-char-str>
 CRYPTOPAN_KEY=<32-char-str>
 ITSDANGEROUSKEY=<32-char-str>
+FLICKR_API_KEY=<flickr-api-key>
+FLICKR_SHARED_SECRET=<flickr-shared-secret>
+DROPBOX_APP_KEY=<dropbox-app-key>
+TWITTER_CONSUMER_KEY=<twitter-consumer-key>
+TWITTER_CONSUMER_SECRET=<twitter-consumer-secret>
 ```
 #### .env.mail
 Contains configuration of the mail server pybossa uses to send its system emails
@@ -23,6 +28,12 @@ Contains postgresql configuration for development environment (default). Example
 POSTGRES_PASSWORD=<postgres-pw>
 POSTGRES_HOST=postgres
 POSTGRES_URL=postgresql://pybossa:${POSTGRES_PASSWORD}@${POSTGRES_HOST}/pybossa
+
+# Configuration for domain and networking
+HOST_NAME=localhost.localdomain
+
+# Default user (Admin)
+ADMIN_EMAIL=dev@citizenscience.ch
 ```
 
 #### .env.deploy
@@ -32,4 +43,10 @@ Contains postgresql configuration for production environment. Example shows conn
 POSTGRES_PASSWORD=<postgres-pw>
 POSTGRES_HOST=testing-db-primary.csz.internal
 POSTGRES_URL=postgresql://pybossa:${POSTGRES_PASSWORD}@${POSTGRES_HOST}/pybossa
+
+# Configuration for domain and networking
+HOST_NAME=localhost.localdomain
+
+# Default user (Admin)
+ADMIN_EMAIL=dev@citizenscience.ch
 ```
