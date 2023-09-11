@@ -1,6 +1,6 @@
-## Full Docker Orchestration for pybossa
+# Full Docker Orchestration for pybossa
 
-### Initial Setup Steps:
+## Initial Setup Steps:
 1. Running in OpenStack Cloud? Modify (or create – if it does not exist) the Docker daemon configuration file at /etc/docker/daemon.json and explicitly set the correct MTU size (accounting for the packet overhead). [_Details / Source_](https://platform9.com/kb/openstack/no-connectivity-to-docker-containers-within-instance)
 ```
 { "mtu": 1450}
@@ -9,7 +9,7 @@
     - .env.secrets
     - .env.mail
     - .env.dev
-    - .env.prod
+    - .env.deploy
 
 UNIX vs. TCP sockets: https://blog.myhro.info/2017/01/benchmarking-ip-and-unix-domain-sockets-for-real
 

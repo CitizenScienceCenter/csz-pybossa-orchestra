@@ -25,7 +25,7 @@ POSTGRES_HOST=postgres
 POSTGRES_URL=postgresql://pybossa:${POSTGRES_PASSWORD}@${POSTGRES_HOST}/pybossa
 ```
 
-#### .env.prod
+#### .env.deploy
 Contains postgresql configuration for production environment. Example shows connection to database running on host in same local network (with dns-service).
 ```
 # Configuration for pybossa database
