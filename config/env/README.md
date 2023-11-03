@@ -18,7 +18,7 @@ MAIL_PW=<mail-pw>
 MAIL_SERVER=asmtp.mailstation.ch
 MAIL_USERNAME=no-reply@citizenscience.ch
 MAIL_PORT=465
-MAIL_DEFAULT_SENDER='C3S Project Builder<no-reply@citizenscience.ch>'
+MAIL_DEFAULT_SENDER='CSZ Project Builder<no-reply@citizenscience.ch>'
 ```
 
 #### .env.dev
