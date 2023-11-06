@@ -1,15 +1,22 @@
-FROM --platform=linux/amd64 python:3.8-slim AS base
+FROM --platform=linux/amd64 ubuntu:22.04 AS base
+# FROM --platform=linux/amd64 python:3.8-slim AS base
 LABEL ch.citizenscience.image.authors="daniel.boehler@uzh.ch" \
-      ch.citizenscience.image.version="2.0"
+      ch.citizenscience.image.version="3.0"
 
 ## install dependencies
 RUN apt-get update && apt-get install -y \
     git \
     gettext-base \
+    python \
+    python-setuptools \
+    python3-dev \
+    python3-pip \
+    python3-virtualenv \
+    python3-venv \
     postgresql \
     postgresql-server-dev-all \
     libpq-dev \
-    python3-psycopg2 \
+    python-psycopg2 \
     build-essential \
     libjpeg-dev \
     libssl-dev \
@@ -20,13 +27,6 @@ RUN apt-get update && apt-get install -y \
     libdbus-glib-1-dev \
     libsasl2-dev \
     libldap2-dev \ 
-    g++ \
-    gcc \
-    libffi-dev \ 
-    libxml2-dev \
-    libxslt-dev \
-    musl-dev \ 
-    openssl \
     && rm -rf /var/lib/apt/lists/*
 
 ## permissions and pybossa user for tightened security
@@ -52,16 +52,18 @@ WORKDIR ${APP_PATH}
 #     rm ${APP_PATH}/requirements.txt
 
 ## [alternative]: install with locally adapted copy of requirements.txt
-COPY --chown=pybossa:pybossa pybossa/requirements.txt ${APP_PATH}/requirements.txt 
-COPY --chown=pybossa:pybossa pybossa/setup.py ${APP_PATH}/setup.py
-COPY --chown=pybossa:pybossa pybossa/pybossa/version.txt ${APP_PATH}/pybossa/version.txt
-RUN pip install -r ${APP_PATH}/requirements.txt
+# COPY --chown=pybossa:pybossa pybossa/requirements.txt ${APP_PATH}/requirements.txt 
+# COPY --chown=pybossa:pybossa pybossa/setup.py ${APP_PATH}/setup.py
+# COPY --chown=pybossa:pybossa pybossa/pybossa/version.txt ${APP_PATH}/pybossa/version.txt
+# RUN pip install -r ${APP_PATH}/requirements.txt
 
 ## clone pybossa into the container (from github)
-# RUN git clone --recursive --branch prod https://github.com/CitizenScienceCenter/pybossa.git ${APP_PATH}
+# clone pybossa into the container (from github)
+RUN git clone --recursive https://github.com/Scifabric/pybossa.git ${APP_PATH}
+RUN pip install -r ${APP_PATH}/requirements.txt
 
 ## [alternative]: copy local copy of pybossa to the container
-COPY --chown=pybossa:pybossa pybossa ${APP_PATH}
+# COPY --chown=pybossa:pybossa pybossa ${APP_PATH}
 
 # copy pybossa settings files to pybossa project
 COPY --chown=pybossa:pybossa config/pybossa/settings_local.py ${APP_PATH}/settings_local.py

@@ -272,7 +272,7 @@ LIBSASS_STYLE = 'compressed'
 # UNPUBLISH_PROJECTS = True
 
 # Use this config variable to create valid URLs for your SPA
-# SPA_SERVER_NAME = 'https://yourserver.com'
+SPA_SERVER_NAME =  'https://' + env['HOST_NAME']
 
 # LDAP
 # LDAP_HOST = '127.0.0.1'
