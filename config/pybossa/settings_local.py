@@ -34,6 +34,9 @@ LAB_URL='https://' + env['HOST_NAME']
 
 INFO_RECIEPIENTS = 'lab@citizenscience.ch'
 
+# REMEMBER_COOKIE_DOMAIN = 'yourdomain.com'
+# SESSION_COOKIE_DOMAIN = 'yourdomain.com'
+# SESSION_COOKIE_SAMESITE = None
 
 ## use SERVER_NAME instead of HOST for production environment with real URLs
 SERVER_NAME = env['HOST_NAME']
@@ -171,8 +174,8 @@ PASSWD_COOKIE_TIMEOUT = 60 * 30
 ACCOUNT_LINK_EXPIRATION = 5 * 60 * 60
 
 ## Ratelimit configuration (API)
-# LIMIT = 300
-# PER = 15 * 60
+LIMIT = 300
+PER = 5 * 60
 
 # Disable new account confirmation (via email)
 ACCOUNT_CONFIRMATION_DISABLED = True
@@ -334,4 +337,4 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 ## When you are using PYBOSSA native JSON support, you will not be building your project presenter within the PYBOSSA structure, but within the JS framework of your choice.
 ## In such a case, you would like to disable the check for the task_presenter when publishing a project. 
 ## If you need this, just add this flag to your settings_local.py file:
-DISABLE_TASK_PRESENTER = True
+DISABLE_TASK_PRESENTER = False
