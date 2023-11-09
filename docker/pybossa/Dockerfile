@@ -1,22 +1,20 @@
-FROM --platform=linux/amd64 ubuntu:22.04 AS base
-# FROM --platform=linux/amd64 python:3.8-slim AS base
+FROM --platform=linux/amd64 python:3.8-slim AS base
 LABEL ch.citizenscience.image.authors="daniel.boehler@uzh.ch" \
       ch.citizenscience.image.version="3.0"
 
+## postgres dependencies
+#     postgresql \
+#     postgresql-server-dev-all \
+#     libpq-dev \
+#     python3-psycopg2 \
+## general dependencies
+#     swig
 ## install dependencies
 RUN apt-get update && apt-get install -y \
     git \
     gettext-base \
-    python \
-    python-setuptools \
-    python3-dev \
-    python3-pip \
-    python3-virtualenv \
-    python3-venv \
-    postgresql \
-    postgresql-server-dev-all \
+    postgresql-client \
     libpq-dev \
-    python-psycopg2 \
     build-essential \
     libjpeg-dev \
     libssl-dev \
@@ -58,9 +56,12 @@ WORKDIR ${APP_PATH}
 # RUN pip install -r ${APP_PATH}/requirements.txt
 
 ## clone pybossa into the container (from github)
-# clone pybossa into the container (from github)
 RUN git clone --recursive https://github.com/Scifabric/pybossa.git ${APP_PATH}
-RUN pip install -r ${APP_PATH}/requirements.txt
+# RUN pip install --no-cache-dir wheel && \
+RUN pip install --no-cache-dir -r ${APP_PATH}/requirements.txt  
+
+# fix deprecated pybossa dependencies
+RUN pip install --no-cache-dir SQLAlchemy==1.4.11
 
 ## [alternative]: copy local copy of pybossa to the container
 # COPY --chown=pybossa:pybossa pybossa ${APP_PATH}
@@ -97,7 +98,7 @@ FROM dependencies AS pybossa-server
 LABEL ch.citizenscience.env="PROD"
 
 ## install uwsgi for production 
-RUN pip install uwsgi
+RUN pip install --no-cache-dir uwsgi 
 
 # copy uwsgi config file to pybossa project
 COPY --chown=pybossa:pybossa config/uwsgi/pybossa.ini ${APP_PATH}/pybossa.ini
