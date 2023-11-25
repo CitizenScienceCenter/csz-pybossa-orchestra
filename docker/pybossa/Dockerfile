@@ -47,23 +47,14 @@ ENV PATH="${VENV_PATH}/bin:${PATH}"
 WORKDIR ${APP_PATH}
 
 ## copy requirements.txt file and install dependencies to avoid reinstall after dir changes
-# COPY --chown=pybossa:pybossa docker/pybossa/requirements.txt ${APP_PATH}/requirements.txt 
-# RUN pip install -r ${APP_PATH}/requirements.txt && \
-#     rm ${APP_PATH}/requirements.txt
-
-## [alternative]: install with locally adapted copy of requirements.txt
-COPY --chown=pybossa:pybossa pybossa/requirements.txt ${APP_PATH}/requirements.txt 
-COPY --chown=pybossa:pybossa pybossa/setup.py ${APP_PATH}/setup.py
-COPY --chown=pybossa:pybossa pybossa/pybossa/version.txt ${APP_PATH}/pybossa/version.txt
-RUN pip install -r ${APP_PATH}/requirements.txt
+COPY --chown=pybossa:pybossa docker/pybossa/requirements.txt ${APP_PATH}/requirements.txt 
+RUN pip install -r ${APP_PATH}/requirements.txt && \
+    rm ${APP_PATH}/requirements.txt
 
 ## clone pybossa into the container (from github)
-# RUN git clone --recursive --branch prod https://github.com/CitizenScienceCenter/pybossa.git ${APP_PATH}
+RUN git clone --recursive --branch prod https://github.com/CitizenScienceCenter/pybossa.git ${APP_PATH}
 
-## [alternative]: copy local copy of pybossa to the container
-COPY --chown=pybossa:pybossa pybossa ${APP_PATH}
-
-# copy pybossa settings files to pybossa project
+## copy pybossa settings files to pybossa project
 COPY --chown=pybossa:pybossa config/pybossa/settings_local.py ${APP_PATH}/settings_local.py
 
 
