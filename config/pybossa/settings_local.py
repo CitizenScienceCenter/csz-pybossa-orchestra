@@ -63,7 +63,7 @@ COPYRIGHT = 'Citizen Science Zurich'
 DESCRIPTION = 'Set the description in your config'
 TERMSOFUSE = 'http://okfn.org/terms-of-use/'
 DATAUSE = 'http://opendatacommons.org/licenses/by/'
-CONTACT_EMAIL = 'info@citizenscience.che'
+CONTACT_EMAIL = 'info@citizenscience.ch'
 CONTACT_TWITTER = 'citscizurich'
 
 ## Default number of projects per page
@@ -120,8 +120,6 @@ MAIL_PORT = env['MAIL_PORT']
 MAIL_USE_SSL = True
 MAIL_FAIL_SILENTLY = False
 MAIL_DEFAULT_SENDER = env['MAIL_DEFAULT_SENDER']
-#MAIL_DEFAULT_SENDER = "PyBossa Support <info@pybossa.com>"
-
 
 ## Announcement messages
 ## Use any combination of the next type of messages: root, user, and app owners
