@@ -32,7 +32,7 @@ ENABLE_DEBUG_TOOLBAR = False
 PLATFORM_URL = 'https://' + env['HOST_NAME'] + '/pybossa'
 LAB_URL='https://' + env['HOST_NAME']
 
-INFO_RECIEPIENTS = 'lab@citizenscience.ch'
+PUBLISH_APPROVALS_RECIEPIENTS = [env['INFO_EMAIL'], env['ADMIN_EMAIL']]
 
 # REMEMBER_COOKIE_DOMAIN = 'yourdomain.com'
 # SESSION_COOKIE_DOMAIN = 'yourdomain.com'
