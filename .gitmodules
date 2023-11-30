@@ -2,7 +2,3 @@
 	path = pybossa-prod
 	url = git@github.com:CitizenScienceCenter/pybossa.git
 	branch = prod
-[submodule "pybossa"]
-	path = pybossa
-	url = git@github.com:Scifabric/pybossa.git
-	branch = master
