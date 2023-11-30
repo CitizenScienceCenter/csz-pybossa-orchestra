@@ -40,7 +40,7 @@ services:
   pybossa-server:
     container_name: pybossa-server
     restart: unless-stopped
-    image: pybossa-clean:server
+    image: pybossa:server
     volumes:
       - ./uploads:/app/uploads
       - static-files:/app/pybossa/pybossa/themes/default/static
@@ -64,7 +64,7 @@ services:
   pybossa-worker:
     container_name: pybossa-worker
     restart: unless-stopped
-    image: pybossa-clean:worker
+    image: pybossa:worker
     build: 
       context: ./
       dockerfile: ./docker/pybossa/Dockerfile
@@ -84,7 +84,7 @@ services:
   pybossa-scheduler:
     container_name: pybossa-scheduler
     restart: unless-stopped
-    image: pybossa-clean:scheduler
+    image: pybossa:scheduler
     build: 
       context: ./
       dockerfile: ./docker/pybossa/Dockerfile
