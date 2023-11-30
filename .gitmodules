@@ -1,0 +1,4 @@
+[submodule "pybossa-prod"]
+	path = pybossa-prod
+	url = git@github.com:CitizenScienceCenter/pybossa.git
+	branch = prod
