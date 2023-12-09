@@ -29,8 +29,8 @@ services:
       context: ./
       dockerfile: ./docker/redis/Dockerfile
       target: redis-sentinel
-    ports:
-      - "26379:26379"
+    # ports:
+    #   - "26379:26379"
     depends_on:
       - redis-master
       - redis-replica

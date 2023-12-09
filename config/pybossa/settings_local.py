@@ -19,8 +19,8 @@
 # Add env support for deployments
 from os import environ as env
 
-DEBUG = False
-ENABLE_DEBUG_TOOLBAR = False
+# DEBUG = True
+# ENABLE_DEBUG_TOOLBAR = True 
 
 ## host for local development
 # HOST = '0.0.0.0'
@@ -28,25 +28,19 @@ ENABLE_DEBUG_TOOLBAR = False
 ## PORT used for local development, in production environment let nginx handle this
 # PORT = 8080
 
-## config parameters from csz zurich adaptions to pybossa (project approval)
-PLATFORM_URL = 'https://' + env['HOST_NAME'] + '/pybossa'
-LAB_URL='https://' + env['HOST_NAME']
-
-INFO_RECIEPIENTS = 'lab@citizenscience.ch'
-
-# REMEMBER_COOKIE_DOMAIN = 'yourdomain.com'
-# SESSION_COOKIE_DOMAIN = 'yourdomain.com'
-# SESSION_COOKIE_SAMESITE = None
-
 ## use SERVER_NAME instead of HOST for production environment with real URLs
 SERVER_NAME = env['HOST_NAME']
 
 SECRET = env['FLASK_SESSIONS_SECRET']
 SECRET_KEY = env['FLASK_SESSIONS_SECRET_KEY']
 
+## Test URI overwrites value for testing purposes
 SQLALCHEMY_DATABASE_URI = env['POSTGRES_URL']
+# SQLALCHEMY_DATABASE_TEST_URI = 'postgresql://rtester:rtester@localhost/pybossa_test'
 
-##Slave configuration for DB
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+## Slave configuration for DB
 #SQLALCHEMY_BINDS = {
 #    'slave': 'postgresql://user:password@server/db'
 #}
@@ -63,19 +57,15 @@ COPYRIGHT = 'Citizen Science Zurich'
 DESCRIPTION = 'Set the description in your config'
 TERMSOFUSE = 'http://okfn.org/terms-of-use/'
 DATAUSE = 'http://opendatacommons.org/licenses/by/'
-CONTACT_EMAIL = 'info@citizenscience.che'
+CONTACT_EMAIL = 'info@citizenscience.ch'
 CONTACT_TWITTER = 'citscizurich'
 
 ## Default number of projects per page
-## APPS_PER_PAGE = 20
+# APPS_PER_PAGE = 20
 
 ## External Auth providers
-# TWITTER_CONSUMER_KEY=''
-# TWITTER_CONSUMER_SECRET=''
-# FACEBOOK_APP_ID=''
-# FACEBOOK_APP_SECRET=''
-# GOOGLE_CLIENT_ID=''
-# GOOGLE_CLIENT_SECRET=''
+TWITTER_CONSUMER_KEY = env['TWITTER_CONSUMER_KEY']
+TWITTER_CONSUMER_SECRET = env['TWITTER_CONSUMER_SECRET']
 
 ## Supported Languages
 ## NOTE: You need to create a symbolic link to the translations folder, otherwise
@@ -96,21 +86,13 @@ ADMINS = [env['ADMIN_EMAIL']]
 
 
 ## logging config
-# Sentry configuration
+## Sentry configuration
 # SENTRY_DSN=''
 ## set path to enable
 # LOG_FILE = '/path/to/log/file'
 ## Optional log level
 # import logging
 # LOG_LEVEL = logging.DEBUG
-
-## Mail setup
-# MAIL_SERVER = 'localhost'
-# MAIL_USERNAME = None
-# MAIL_PASSWORD = None
-# MAIL_PORT = 25
-# MAIL_FAIL_SILENTLY = False
-# MAIL_DEFAULT_SENDER = 'PyBossa Support <info@pybossa.com>'
 
 ## Mail setup
 MAIL_SERVER = env['MAIL_SERVER']
@@ -120,12 +102,13 @@ MAIL_PORT = env['MAIL_PORT']
 MAIL_USE_SSL = True
 MAIL_FAIL_SILENTLY = False
 MAIL_DEFAULT_SENDER = env['MAIL_DEFAULT_SENDER']
-#MAIL_DEFAULT_SENDER = "PyBossa Support <info@pybossa.com>"
 
+## SPAM protection
+# SPAM = ['spam.com', 'fake.es']
 
 ## Announcement messages
 ## Use any combination of the next type of messages: root, user, and app owners
-## ANNOUNCEMENT = {'admin': 'Root Message', 'user': 'User Message', 'owner': 'Owner Message'}
+# ANNOUNCEMENT = {'admin': 'Root Message', 'user': 'User Message', 'owner': 'Owner Message'}
 
 ## Enforce Privacy Mode, by default is disabled
 ## This config variable will disable all related user pages except for admins
@@ -136,12 +119,21 @@ ENFORCE_PRIVACY = False
 ## Cache setup. By default it is enabled
 ## Redis Sentinel
 # List of Sentinel servers (IP, port)
+# REDIS_CACHE_ENABLED = False
 REDIS_SENTINEL = [('redis-sentinel', 26379)]
 REDIS_MASTER = 'mymaster'
 REDIS_DB = 0
 REDIS_KEYPREFIX = 'pybossa_cache'
 REDIS_SOCKET_TIMEOUT = None
 REDIS_RETRY_ON_TIMEOUT = True
+
+## Redis Settings for no-sentinel setup
+REDIS_HOST = 'redis-master'
+REDIS_PORT = 6379
+# REDIS_PASSWORD = 'your-password'
+
+## For RQ-DASHBOARD
+REDIS_URL = 'redis://redis-master:6379'
 
 ## Allowed upload extensions
 ALLOWED_EXTENSIONS = ['js', 'css', 'png', 'jpg', 'jpeg', 'gif', 'zip']
@@ -173,14 +165,33 @@ PASSWD_COOKIE_TIMEOUT = 60 * 30
 # Expiration time for account confirmation / password recovery links
 ACCOUNT_LINK_EXPIRATION = 5 * 60 * 60
 
-## Ratelimit configuration (API)
+# Ratelimit configuration (API)
 LIMIT = 300
 PER = 5 * 60
 
-# Disable new account confirmation (via email)
-ACCOUNT_CONFIRMATION_DISABLED = True
+## Project cache
+# APP_TIMEOUT = 15 * 60
+# REGISTERED_USERS_TIMEOUT = 15 * 60
+# ANON_USERS_TIMEOUT = 5 * 60 * 60
+# STATS_FRONTPAGE_TIMEOUT = 12 * 60 * 60
+# STATS_APP_TIMEOUT = 12 * 60 * 60
+# STATS_DRAFT_TIMEOUT = 24 * 60 * 60
+# N_APPS_PER_CATEGORY_TIMEOUT = 60 * 60
+# BROWSE_TASKS_TIMEOUT = 3 * 60 * 60
+## Category cache
+# CATEGORY_TIMEOUT = 24 * 60 * 60
+## User cache
+# USER_TIMEOUT = 15 * 60
+# USER_TOP_TIMEOUT = 24 * 60 * 60
+# USER_TOTAL_TIMEOUT = 24 * 60 * 60
 
-# Mailchimp API key
+# Disable new account confirmation (via email)
+ACCOUNT_CONFIRMATION_DISABLED = False
+
+# Disable blog post updates
+DISABLE_EMAIL_NOTIFICATIONS = True
+
+## Mailchimp API key
 # MAILCHIMP_API_KEY = "your-key"
 # MAILCHIMP_LIST_ID = "your-list-ID"
 
@@ -191,21 +202,17 @@ FLICKR_SHARED_SECRET = env['FLICKR_SHARED_SECRET']
 # Dropbox app key
 DROPBOX_APP_KEY = env['DROPBOX_APP_KEY']
 
-# Twitter consumer key
-TWITTER_CONSUMER_KEY = env['TWITTER_CONSUMER_KEY']
-TWITTER_CONSUMER_SECRET = env['TWITTER_CONSUMER_SECRET']
-
-# Send emails weekly update every
+## Send emails weekly update every
 # WEEKLY_UPDATE_STATS = 'Sunday'
 
-# Youtube API server key
-# YOUTUBE_API_SERVER_KEY = 'your-key'
+## Youtube API server key
+YOUTUBE_API_SERVER_KEY = 'your-key'
 
 # Enable Server Sent Events
 # WARNING: this will require to run PyBossa in async mode. Check the docs.
 # WARNING: if you don't enable async when serving PyBossa, the server will lock
 # WARNING: and it will not work. For this reason, it's disabled by default.
-# SSE = False
+SSE = False
 
 # Add here any other ATOM feed that you want to get notified.
 NEWS_URL = ['https://github.com/Scifabric/enki/releases.atom',
@@ -224,6 +231,7 @@ PRO_FEATURES = {
     'better_stats':          True
 }
 
+
 # Libsass style. You can use nested, expanded, compact and compressed
 LIBSASS_STYLE = 'compressed'
 
@@ -237,7 +245,7 @@ LIBSASS_STYLE = 'compressed'
 #                               "methods": "*"
 #                               }}
 
-# Email notifications for background jobs.
+## Email notifications for background jobs.
 # FAILED_JOBS_MAILS = 7
 # FAILED_JOBS_RETRIES = 3
 
@@ -250,31 +258,31 @@ LIBSASS_STYLE = 'compressed'
 # while if you configured as False, it will return the resource with and without the trailing /
 # STRICT_SLASHES = True
 
-# Use SSO on Disqus.com
+## Use SSO on Disqus.com
 # DISQUS_SECRET_KEY = 'secret-key'
 # DISQUS_PUBLIC_KEY = 'public-key'
 
-# Use Web Push Notifications
+## Use Web Push Notifications
 # ONESIGNAL_APP_ID = 'Your-app-id'
 # ONESIGNAL_API_KEY = 'your-app-key'
 
 
-# Enable two factor authentication
+## Enable two factor authentication
 # ENABLE_TWO_FACTOR_AUTH = True
 
-# Strong password policy for user accounts
+## Strong password policy for user accounts
 # ENABLE_STRONG_PASSWORD = True
 
-# Create new leaderboards based on info field keys from user
+## Create new leaderboards based on info field keys from user
 # LEADERBOARDS = ['foo', 'bar']
 
-# Unpublish inactive projects
+## Unpublish inactive projects
 # UNPUBLISH_PROJECTS = True
 
-# Use this config variable to create valid URLs for your SPA
+## Use this config variable to create valid URLs for your SPA
 SPA_SERVER_NAME =  'https://' + env['HOST_NAME']
 
-# LDAP
+## LDAP
 # LDAP_HOST = '127.0.0.1'
 # LDAP_BASE_DN = 'ou=users,dc=scifabric,dc=com'
 # LDAP_USERNAME = 'cn=yourusername,dc=scifabric,dc=com'
@@ -302,11 +310,22 @@ SPA_SERVER_NAME =  'https://' + env['HOST_NAME']
 # 	    "^/static/.*"
 # 	]
 # }
-# Specify which key from the info field of task, task_run or result is going to be used as the root key
-# for exporting in CSV format
+## Specify which key from the info field of task, task_run or result is going to be used as the root key
+## for exporting in CSV format
 # TASK_CSV_EXPORT_INFO_KEY = 'key'
 # TASK_RUN_CSV_EXPORT_INFO_KEY = 'key2'
 # RESULT_CSV_EXPORT_INFO_KEY = 'key3'
+
+## Making extra key/value pairs in info field public
+# PROJECT_INFO_PUBLIC_FIELDS = ['key1', 'key2']
+# USER_INFO_PUBLIC_FIELDS = ['badges', 'key2']
+# CATEGORY_INFO_PUBLIC_FIELDS = ['key1', 'key2']
+
+## Add historical contribuations as category
+HISTORICAL_CONTRIBUTIONS_AS_CATEGORY = True
+
+## Ignore specific keys when exporting data in CSV format
+# IGNORE_FLAT_KEYS = [ 'geojson', 'key1', ...]
 
 # A 32 char string for AES encryption of public IPs.
 # NOTE: this is really important, don't use the following one
@@ -314,27 +333,25 @@ SPA_SERVER_NAME =  'https://' + env['HOST_NAME']
 # the anonymization of the IPs.
 CRYPTOPAN_KEY = env['CRYPTOPAN_KEY']
 
-# TTL for ZIP files of personal data
+## TTL for ZIP files of personal data
 TTL_ZIP_SEC_FILES = 3
 
-# Instruct PYBOSSA to generate HTTP or HTTPS
+## Instruct PYBOSSA to generate HTTP or HTTPS
 PREFERRED_URL_SCHEME='https'
 
-# Instruct PYBOSSA to generate absolute paths or not for avatars
+## Instruct PYBOSSA to generate absolute paths or not for avatars
 AVATAR_ABSOLUTE = True
 
 # Inactive users months to send email notification
 USER_INACTIVE_NOTIFICATION = 5
 
-# Inactive users months to delete users
-USER_INACTIVE_DELETE = 6
+## Inactive users months to delete users
+USER_DELETE_AFTER_NOTIFICATION = '1 month'
 
-# Inactive users email SQL query
+## Inactive users email SQL query
 INACTIVE_USERS_SQL_QUERY = """SELECT user_id FROM task_run WHERE user_id IS NOT NULL AND to_date(task_run.finish_time, 'YYYY-MM-DD\THH24:MI:SS.US') >= NOW() - '12 month'::INTERVAL AND to_date(task_run.finish_time, 'YYYY-MM-DD\THH24:MI:SS.US') < NOW() - '3 month'::INTERVAL GROUP BY user_id ORDER BY user_id;"""
-
-SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 ## When you are using PYBOSSA native JSON support, you will not be building your project presenter within the PYBOSSA structure, but within the JS framework of your choice.
 ## In such a case, you would like to disable the check for the task_presenter when publishing a project. 
 ## If you need this, just add this flag to your settings_local.py file:
-DISABLE_TASK_PRESENTER = False
+DISABLE_TASK_PRESENTER = True
