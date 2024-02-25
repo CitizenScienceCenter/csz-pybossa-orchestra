@@ -172,7 +172,7 @@ PASSWD_COOKIE_TIMEOUT = 60 * 30
 ACCOUNT_LINK_EXPIRATION = 5 * 60 * 60
 
 ## Ratelimit configuration (API)
-LIMIT = 300
+LIMIT = 600
 PER = 5 * 60
 
 # Disable new account confirmation (via email)
