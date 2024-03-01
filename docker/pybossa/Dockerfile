@@ -53,6 +53,7 @@ RUN pip install -r ${APP_PATH}/requirements.txt && \
 
 ## clone pybossa into the container (from github)
 RUN git clone --recursive --branch prod https://github.com/CitizenScienceCenter/pybossa.git ${APP_PATH}
+#COPY --chown=pybossa:pybossa pybossa-prod ${APP_PATH}
 
 ## copy pybossa settings files to pybossa project
 COPY --chown=pybossa:pybossa config/pybossa/settings_local.py ${APP_PATH}/settings_local.py
