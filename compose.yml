@@ -3,8 +3,6 @@ services:
     container_name: redis-master
     image: redis:latest
     restart: always
-    ports:
-      - "6379:6379"
     networks:
       - redis
   
@@ -29,8 +27,6 @@ services:
       context: ./
       dockerfile: ./docker/redis/Dockerfile
       target: redis-sentinel
-    # ports:
-    #   - "26379:26379"
     depends_on:
       - redis-master
       - redis-replica

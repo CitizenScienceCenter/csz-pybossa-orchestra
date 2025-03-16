@@ -27,7 +27,8 @@ RUN apt-get update && apt-get install -y \
     libldap2-dev \ 
     && rm -rf /var/lib/apt/lists/*
 
-## permissions and pybossa user for tightened security
+
+    
 RUN adduser pybossa
 RUN mkdir /app && chown -R pybossa:pybossa /app
 USER pybossa
