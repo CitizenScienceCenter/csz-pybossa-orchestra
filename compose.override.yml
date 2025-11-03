@@ -25,9 +25,9 @@ services:
 
 networks:
   web:
-    name: pybossa-web-net
+    name: pybossa-web-network
   postgres:
-    name: pybossa-postgres-net
+    name: pybossa-postgres-network
     external: true
   
   
